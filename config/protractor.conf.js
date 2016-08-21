@@ -3,6 +3,7 @@
 
 /*global jasmine */
 var SpecReporter = require('jasmine-spec-reporter');
+var phantomJSPath = require('phantomjs-prebuilt').path;
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -10,9 +11,10 @@ exports.config = {
     '../e2e/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'phantomjs',
+    'phantomjs.binary.path': phantomJSPath
   },
-  directConnect: true,
+  directConnect: false,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
   jasmineNodeOpts: {
@@ -27,6 +29,7 @@ exports.config = {
     });
   },
   onPrepare: function() {
+    browser.manage().timeouts().implicitlyWait(5000);
     jasmine.getEnv().addReporter(new SpecReporter());
   }
 };
