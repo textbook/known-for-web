@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Actor } from '../models';
+import { ActorService } from '../services/actor.service';
 
 @Component({
   moduleId: module.id,
@@ -11,8 +13,9 @@ export class ActorComponent implements OnInit {
 
   actor: Actor;
 
-  constructor() { }
+  constructor(private actorService: ActorService) { }
 
-  ngOnInit() { }
-
+  ngOnInit() {
+    this.actorService.getActor().subscribe(actor => this.actor = actor);
+  }
 }
