@@ -1,15 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+// import { Observable } from 'rxjs';
+// import 'rxjs/add/operator/map';
+
 import { ActorComponent } from './actor.component';
+import { ActorService } from '../services/actor.service';
 
 describe('Component: ActorComponent', () => {
   let fixture: ComponentFixture<ActorComponent>;
+  let mockActorService: any;
 
   beforeEach(done => {
+    mockActorService = jasmine.createSpyObj('ActorService', ['getActor']);
+    // mockActorService.getActor.and.returnValue(Observable.from([{ name: '' }]));
 
     TestBed.configureTestingModule({
       declarations: [ActorComponent],
       providers: [
+        { provide: ActorService, useValue: mockActorService }
       ]
     });
 
