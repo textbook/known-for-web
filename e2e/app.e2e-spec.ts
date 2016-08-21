@@ -7,8 +7,8 @@ describe('known-for-web App', function() {
     page = new KnownForWebPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display website title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getTitleText()).toEqual('Known For');
   });
 });
