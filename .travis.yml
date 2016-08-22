@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "6"
+
+before_script:
+- npm install -g angular-cli
+- npm install -g karma
+- npm install
+- ng build
+- ng serve &
+
+script: ng lint && ng test --watch=false && ng e2e
