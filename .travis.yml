@@ -2,10 +2,12 @@ language: node_js
 node_js:
   - "6"
 
-before_script:
+install:
 - npm install -g angular-cli
 - npm install -g karma
 - npm install
+
+before_script:
 - ng build
 - ng serve &
 
