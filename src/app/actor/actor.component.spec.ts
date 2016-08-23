@@ -22,26 +22,31 @@ describe('Component: ActorComponent', () => {
 
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(ActorComponent);
+      fixture.detectChanges();
       done();
     });
   });
 
   it('should show an actor\'s name', () => {
-    fixture.detectChanges();
     fixture.componentInstance.actor = { name: 'Hello World' };
     fixture.detectChanges();
     expect(getActorName(fixture)).toEqual('Hello World');
   });
 
   it('should show three related movies', () => {
-    fixture.detectChanges();
     fixture.componentInstance.actor = { name: 'Hello World', known_for: [{}, {}, {}] };
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelectorAll('kf-movie').length).toEqual(3);
   });
 
-  it('should retrieve an actor on init', () => {
+  it('should show an actor\'s image', () => {
+    let imageUrl = 'some.jpg';
+    fixture.componentInstance.actor = { name: 'Hello World', image_url: imageUrl };
     fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('img.actor-image').src).toContain(imageUrl);
+  });
+
+  it('should retrieve an actor on init', () => {
     expect(mockActorService.getActor).toHaveBeenCalled();
     expect(getActorName(fixture)).toEqual('Hans Muster');
   });

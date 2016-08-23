@@ -1,3 +1,6 @@
-<h2 class="actor-name">{{ actor?.name }}</h2>
+<div class="actor-details">
+  <h2 class="actor-name">{{ actor?.name }}</h2>
+  <img class="actor-image" src="{{ actor?.image_url }}">
+</div>
 
 <kf-movie *ngFor="let movie of (actor?.known_for || [])"></kf-movie>
