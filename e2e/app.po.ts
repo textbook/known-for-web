@@ -10,4 +10,8 @@ export class KnownForWebPage {
   getActorName() {
     return element(by.css('app-root h2.actor-name')).getText();
   }
+
+  getMovieCount() {
+    return element.all(by.css('kf-movie .movie-details')).count();
+  }
 }

@@ -3,4 +3,4 @@
   <img class="actor-image" src="{{ actor?.image_url }}">
 </div>
 
-<kf-movie *ngFor="let movie of (actor?.known_for || [])"></kf-movie>
+<kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>

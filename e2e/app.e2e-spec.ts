@@ -16,4 +16,9 @@ describe('known-for-web App', function() {
     page.navigateTo();
     expect(page.getActorName()).not.toBeNull();
   });
+
+  it('should show three movies the person is known for', () => {
+    page.navigateTo();
+    expect(page.getMovieCount()).toEqual(3);
+  });
 });
