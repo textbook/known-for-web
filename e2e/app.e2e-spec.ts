@@ -21,4 +21,11 @@ describe('known-for-web App', function() {
     page.navigateTo();
     expect(page.getMovieCount()).toEqual(3);
   });
+
+  it('should show a "Who?" button to change the displayed actor', () => {
+    page.navigateTo();
+    let lastActor = page.getActorName();
+    page.clickSkipButton();
+    expect(page.getActorName()).not.toEqual(lastActor);
+  });
 });

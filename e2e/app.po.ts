@@ -14,4 +14,8 @@ export class KnownForWebPage {
   getMovieCount() {
     return element.all(by.css('kf-movie .movie-details')).count();
   }
+
+  clickSkipButton() {
+    return element(by.buttonText('Who?')).click();
+  }
 }

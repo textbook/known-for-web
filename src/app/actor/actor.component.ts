@@ -18,6 +18,10 @@ export class ActorComponent implements OnInit {
   constructor(private actorService: ActorService) { }
 
   ngOnInit() {
+    this.refreshActor();
+  }
+
+  refreshActor() {
     this.actorService.getActor().subscribe(actor => this.actor = actor);
   }
 }

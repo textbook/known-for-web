@@ -4,3 +4,5 @@
 </div>
 
 <kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
+
+<button *ngIf="actor" (click)="refreshActor()">Who?</button>
