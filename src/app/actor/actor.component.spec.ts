@@ -35,7 +35,7 @@ describe('Component: ActorComponent', () => {
 
   it('should show three related movies', () => {
     fixture.detectChanges();
-    fixture.componentInstance.actor = { name: 'Hello World', movies: [{}, {}, {}] };
+    fixture.componentInstance.actor = { name: 'Hello World', known_for: [{}, {}, {}] };
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelectorAll('kf-movie').length).toEqual(3);
   });

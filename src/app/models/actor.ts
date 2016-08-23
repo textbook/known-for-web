@@ -1,4 +1,4 @@
 export interface Actor {
   name: string;
-  movies?: any[];
+  known_for?: any[];
 }
