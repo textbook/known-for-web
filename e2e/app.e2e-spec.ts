@@ -17,9 +17,9 @@ describe('known-for-web App', function() {
     expect(page.getActorName()).not.toBeNull();
   });
 
-  it('should show three movies the person is known for', () => {
+  it('should show up to three movies the person is known for', () => {
     page.navigateTo();
-    expect(page.getMovieCount()).toEqual(3);
+    expect(page.getMovieCount()).toBeGreaterThan(0);
   });
 
   it('should show a "Who?" button to change the displayed actor', () => {
