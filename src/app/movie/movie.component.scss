@@ -1,5 +1,7 @@
 .movie-details {
+  background-color: #d8d8d8;
   display: flex;
+  margin: 15px;
 
   p {
     margin: 5px;
@@ -9,7 +11,7 @@
     -webkit-filter: blur(5px);
     filter: blur(5px);
     height: 100px;
-    padding: 10px;
+    padding: 5px;
   }
 
   .movie-text {
