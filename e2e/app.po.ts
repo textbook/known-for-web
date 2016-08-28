@@ -16,6 +16,8 @@ export class KnownForWebPage {
   }
 
   clickSkipButton() {
-    return element(by.buttonText('Who?')).click();
+    let button = element(by.buttonText('Who?'));
+    browser.wait(protractor.ExpectedConditions.elementToBeClickable(button), 2000);
+    return button.click();
   }
 }
