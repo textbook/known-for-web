@@ -1,5 +1,8 @@
 <div class="actor-details">
-  <h2 class="actor-name">{{ actor?.name }}</h2>
+  <div>
+    <h2 class="actor-name">{{ actor?.name }}</h2>
+    <p class="actor-age">{{ actor?.birthday | age }} years old</p>
+  </div>
   <img class="actor-image" src="{{ actor?.image_url }}">
 </div>
 

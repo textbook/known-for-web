@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Observable } from 'rxjs/Rx';
 
+import * as moment from 'moment';
+
 import { ActorComponent } from './actor.component';
 import { ActorService } from '../services/actor.service';
 
@@ -49,6 +51,16 @@ describe('Component: ActorComponent', () => {
   it('should retrieve an actor on init', () => {
     expect(mockActorService.getActor).toHaveBeenCalled();
     expect(getActorName(fixture)).toEqual('Hans Muster');
+  });
+
+  it('should show the actor\'s age', () => {
+    let thirty_eight = moment().subtract(38, 'years').subtract(2, 'weeks');
+    fixture.componentInstance.actor = {
+      name: 'John Smith',
+      birthday: thirty_eight.format('YYYY-MM-DDT00:00:00Z'),
+    };
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
   });
 
   function getActorName(componentFixture: ComponentFixture<ActorComponent>): string {
