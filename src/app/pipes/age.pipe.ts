@@ -8,7 +8,10 @@ import * as moment from 'moment';
 export class AgePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return moment().diff(value, 'years').toString();
+    if (value == null) {
+      return '';
+    }
+    return `${moment().diff(value, 'years')} years old`;
   }
 
 }
