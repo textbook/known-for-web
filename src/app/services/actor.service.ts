@@ -1,19 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/from';
 
 import { Actor } from '../models';
 
 @Injectable()
 export class ActorService {
+  static whoops = {
+    name: 'Something\'s wrong',
+    image_url: 'http://www.fillmurray.com/185/278',
+  };
 
   constructor(private http: Http) { }
 
   getActor(): Observable<Actor> {
     return this.http
       .get('https://known-for-api.cfapps.pez.pivotal.io/api/person')
-      .map(response => response.json());
+      .map(response => response.json())
+      .catch((err: Response) => {
+        console.error(`Failed to fetch actor ([${err.status}] ${err.statusText})`);
+        return Observable.from([ActorService.whoops]);
+      });
   }
 }

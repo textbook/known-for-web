@@ -51,6 +51,22 @@ describe('Service: Actor', () => {
         expect(response).toEqual(expectedResponse);
       });
     }));
+
+    it('should return dummy data on whoops', inject([MockBackend, ActorService], (backend: MockBackend, service: ActorService) => {
+      let spiedConsole = spyOn(console, 'error');
+
+      backend.connections.subscribe(connection => {
+        expect(connection.request.url.toString()).toMatch(endpointRegex);
+        expect(connection.request.method).toEqual(RequestMethod.Get);
+
+        connection.mockError({ status: 999, message: 'panic!'});
+      });
+
+      service.getActor().subscribe(response => {
+        expect(spiedConsole).toHaveBeenCalled();
+        expect(response).toEqual(ActorService.whoops);
+      });
+    }));
   });
 
 });
