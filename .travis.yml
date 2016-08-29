@@ -14,7 +14,7 @@ before_script:
 script: ng lint && ng test --watch=false && ng e2e
 
 before_deploy:
-  - ng build --prod
+  - ng build --prod --output-path=prod/
 
 deploy:
     edge: true
