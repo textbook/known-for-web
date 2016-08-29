@@ -3,12 +3,25 @@ node_js:
   - "6"
 
 install:
-- npm install -g angular-cli
-- npm install -g karma
-- npm install
+  - npm install -g angular-cli
+  - npm install -g karma
+  - npm install
 
 before_script:
-- ng build
-- ng serve &
+  - ng build
+  - ng serve &
 
 script: ng lint && ng test --watch=false && ng e2e
+
+before_deploy:
+  - ng build --prod
+
+deploy:
+    edge: true
+    provider: cloudfoundry
+    api: https://api.run.pez.pivotal.io
+    username: $CF_USERNAME
+    password: $CF_PASSWORD
+    organization: pivot-jsharpe
+    space: known-for
+    manifest: manifest.yml
