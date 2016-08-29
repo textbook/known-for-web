@@ -32,7 +32,7 @@ describe('Component: Movie', () => {
     let imageUrl = 'poster.jpg';
     fixture.componentInstance.movie = { title: 'Watch This', image_url: imageUrl };
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('img.movie-poster').src).toContain(imageUrl);
+    expect(fixture.nativeElement.querySelector('.movie-poster > img').src).toContain(imageUrl);
   });
 
   it('should display an image of the movie', () => {

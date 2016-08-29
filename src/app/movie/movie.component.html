@@ -1,5 +1,7 @@
 <div class="movie-details">
-  <img class="movie-poster" src="{{ movie?.image_url }}">
+  <div class="movie-poster">
+    <img src="{{ movie?.image_url }}" [ngClass]="{ blurred: false, shown: false }">
+  </div>
   <div class="movie-text">
     <input type="text" value="{{ movie?.title }}" class="movie-title"/>
     <p class="movie-release">{{ movie?.release_year }}</p>

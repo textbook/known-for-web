@@ -2,16 +2,36 @@
   background-color: #d8d8d8;
   display: flex;
   margin: 15px;
+  padding: 10px;
 
   p {
     margin: 5px;
   }
 
   .movie-poster {
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
+    background-color: #9b9b9b;
+    flex-shrink: 0;
+    overflow: hidden;
     height: 100px;
-    padding: 5px;
+    width: 67px;
+
+    img {
+      display: none;
+      height: 100%;
+
+      &.blurred {
+        filter: blur(5px);
+          -webkit-filter: blur(5px);
+          -o-filter: blur(5px);
+          -ms-filter: blur(5px);
+          -moz-filter: blur(5px);
+        margin: 0 1px;
+      }
+
+      &.shown {
+        display: block;
+      }
+    }
   }
 
   .movie-text {
