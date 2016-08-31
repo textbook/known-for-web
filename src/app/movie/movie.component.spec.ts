@@ -19,7 +19,7 @@ describe('Component: Movie', () => {
     let title = 'This Time It\'s Personal';
     fixture.componentInstance.movie = { title };
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('input.movie-title').value).toEqual(title);
+    expect(fixture.nativeElement.querySelector('h3.movie-title').innerText).toEqual(title);
   });
 
   it('should display an image of the movie', () => {

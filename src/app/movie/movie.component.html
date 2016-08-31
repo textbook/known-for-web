@@ -3,7 +3,7 @@
     <img src="{{ movie?.image_url }}" [ngClass]="{ blurred: false, shown: false }">
   </div>
   <div class="movie-text">
-    <input type="text" value="{{ movie?.title }}" class="movie-title"/>
+    <h3 class="movie-title">{{ movie?.title }}</h3>
     <p class="movie-release">{{ movie?.release_year }}</p>
     <p class="movie-synopsis">{{ movie?.synopsis }}</p>
   </div>
