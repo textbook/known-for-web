@@ -64,26 +64,47 @@ describe('Component: ActorComponent', () => {
   });
 
   describe('makeGuess method', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = fixture.componentInstance;
+    });
+
     it('should add inputs to a list', () => {
-      let instance = fixture.componentInstance;
       let guesses = instance.guesses.length;
       instance.makeGuess('hello world');
       expect(instance.guesses.length).toBe(guesses + 1);
     });
 
     it('should ignore empty inputs', () => {
-      let instance = fixture.componentInstance;
       let guesses = instance.guesses.length;
       instance.makeGuess('');
       expect(instance.guesses.length).toBe(guesses);
     });
+
     it('should ignore duplicate inputs', () => {
-      let instance = fixture.componentInstance;
       let guesses = instance.guesses.length;
       instance.makeGuess('hello world');
       instance.makeGuess('hello world');
-      instance.makeGuess('hello world');
+      instance.makeGuess('Hello World');
       expect(instance.guesses.length).toBe(guesses + 1);
+    });
+
+    it('should show a movie if the title matches', () => {
+      instance.actor.known_for = [{ title: 'Match' }, { title: 'Not' }];
+      fixture.detectChanges();
+      instance.makeGuess('Match');
+      expect(instance.actor.known_for[0].shown).toBeTruthy();
+      expect(instance.actor.known_for[1].shown).toBeFalsy();
+    });
+
+    it('should match titles case insensitively', () => {
+      instance.actor.known_for = [{ title: 'Match' }, { title: 'another match' }];
+      fixture.detectChanges();
+      instance.makeGuess('match');
+      instance.makeGuess('Another Match');
+      expect(instance.actor.known_for[0].shown).toBeTruthy();
+      expect(instance.actor.known_for[1].shown).toBeTruthy();
     });
   });
 
