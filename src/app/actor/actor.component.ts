@@ -16,6 +16,7 @@ import { AgePipe } from '../pipes';
 export class ActorComponent implements OnInit {
 
   actor: Actor;
+  guesses: string[];
 
   constructor(private actorService: ActorService) { }
 
@@ -23,7 +24,14 @@ export class ActorComponent implements OnInit {
     this.refreshActor();
   }
 
+  makeGuess(title: string) {
+    this.guesses.push(title);
+  }
+
   refreshActor() {
-    this.actorService.getActor().subscribe(actor => this.actor = actor);
+    this.actorService.getActor().subscribe(actor => {
+      this.actor = actor;
+      this.guesses = [];
+    });
   }
 }

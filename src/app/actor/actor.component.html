@@ -1,11 +1,21 @@
-<div class="actor-details">
-  <div>
-    <h2 class="actor-name">{{ actor?.name }}</h2>
-    <p class="actor-age" *ngIf="actor?.birthday">{{ actor?.birthday | age }}</p>
+<div *ngIf="actor">
+  <div class="actor-details">
+    <div>
+      <h2 class="actor-name">{{ actor?.name }}</h2>
+      <p class="actor-age" *ngIf="actor?.birthday">{{ actor?.birthday | age }}</p>
+    </div>
+    <img class="actor-image" src="{{ actor?.image_url }}">
   </div>
-  <img class="actor-image" src="{{ actor?.image_url }}">
+
+  <button (click)="refreshActor()" class="refresh">Who?</button>
+
+  <kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
+
+  <div class="input-form" *ngIf="actor">
+    <input type="text" name="movieTitle" #title>
+    <button type="button" (click)="makeGuess(title.value)">Guess</button>
+  </div>
+
+  <h3 *ngIf="guesses?.length > 0" class="guess">Guesses:</h3>
+  <p *ngFor="let guess of guesses" class="guess">{{ guess }}</p>
 </div>
-
-<kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
-
-<button *ngIf="actor" (click)="refreshActor()">Who?</button>

@@ -12,14 +12,34 @@
   }
 }
 
+button, input {
+  font-size: 18px;
+}
+
 button {
   background-color: gray;
   border: none;
-  bottom: 0;
   color: whitesmoke;
   cursor: pointer;
-  font-size: 18px;
+  display: inline-block;
   padding: 10px;
-  position: absolute;
-  width: 100%;
+
+  &.refresh {
+    display: block;
+    width: 100%;
+  }
+}
+
+.input-form {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+
+  input {
+    width: 100%;
+  }
+}
+
+.guess {
+  margin: 15px;
 }
