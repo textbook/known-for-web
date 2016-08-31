@@ -3,4 +3,6 @@ export interface Movie {
   image_url?: string;
   release_year?: number;
   synopsis?: string;
+
+  shown?: boolean;
 }

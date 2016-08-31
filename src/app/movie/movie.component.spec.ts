@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MovieComponent } from './movie.component';
+import { Movie } from '../models';
 
 describe('Component: Movie', () => {
   let fixture: ComponentFixture<MovieComponent>;
@@ -15,24 +16,59 @@ describe('Component: Movie', () => {
     });
   });
 
-  it('should display the name of the movie', () => {
-    let title = 'This Time It\'s Personal';
-    fixture.componentInstance.movie = { title };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('h3.movie-title').innerText).toEqual(title);
+  describe('when shown', () => {
+    let movie: Movie;
+
+    beforeEach(() => {
+      movie = {
+        title: 'Watch This',
+        image_url: 'poster.jpg',
+        release_year: 2001,
+        synopsis: 'The movie Watch This does not exist',
+        shown: true,
+      };
+      fixture.componentInstance.movie = movie;
+      fixture.detectChanges();
+    });
+
+    it('should display the name of the movie', () => {
+      expect(fixture.nativeElement.querySelector('h3.movie-title').innerText).toEqual(movie.title);
+    });
+
+    it('should display an image of the movie', () => {
+      expect(fixture.nativeElement.querySelector('.movie-poster > img.blurred')).toBeNull();
+      expect(fixture.nativeElement.querySelector('.movie-poster > img').src).toContain(movie.image_url);
+    });
+
+    it('should display the movie\'s release year', () => {
+      expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
+    });
   });
 
-  it('should display an image of the movie', () => {
-    let imageUrl = 'poster.jpg';
-    fixture.componentInstance.movie = { title: 'Watch This', image_url: imageUrl };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.movie-poster > img').src).toContain(imageUrl);
-  });
+  describe('when not shown', () => {
+    let movie: Movie;
 
-  it('should display the movie\'s release year', () => {
-    let releaseYear = 1234;
-    fixture.componentInstance.movie = { title: 'Watch This', release_year: releaseYear };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(releaseYear);
+    beforeEach(() => {
+      movie = {
+        title: 'Watch This',
+        image_url: 'poster.jpg',
+        release_year: 2001,
+        shown: false,
+      };
+      fixture.componentInstance.movie = movie;
+      fixture.detectChanges();
+    });
+
+    it('should not display the name of the movie', () => {
+      expect(fixture.nativeElement.querySelector('h3.movie-title').innerText).toEqual('\xa0');
+    });
+
+    it('should display a blurred image of the movie', () => {
+      expect(fixture.nativeElement.querySelector('.movie-poster > img.blurred')).not.toBeNull();
+    });
+
+    it('should display the movie\'s release year', () => {
+      expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
+    });
   });
 });

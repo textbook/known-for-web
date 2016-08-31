@@ -1,9 +1,9 @@
 <div class="movie-details">
   <div class="movie-poster">
-    <img src="{{ movie?.image_url }}" [ngClass]="{ blurred: false, shown: false }">
+    <img src="{{ movie?.image_url }}" [ngClass]="{ blurred: !movie?.shown, shown: true }">
   </div>
   <div class="movie-text">
-    <h3 class="movie-title">{{ movie?.title }}</h3>
+    <h3 class="movie-title">{{ movie && movie.shown ? movie.title : '&nbsp;' }}</h3>
     <p class="movie-release">{{ movie?.release_year }}</p>
     <p class="movie-synopsis">{{ movie?.synopsis }}</p>
   </div>
