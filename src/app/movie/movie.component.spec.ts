@@ -1,17 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Observable } from 'rxjs/Rx';
-
 import { MovieComponent } from './movie.component';
 
 describe('Component: Movie', () => {
   let fixture: ComponentFixture<MovieComponent>;
-  let mockActorService: any;
 
   beforeEach(done => {
-    mockActorService = jasmine.createSpyObj('ActorService', ['getActor']);
-    mockActorService.getActor.and.returnValue(Observable.from([{ name: 'Hans Muster' }]));
-
     TestBed.configureTestingModule({ declarations: [MovieComponent] });
 
     TestBed.compileComponents().then(() => {
@@ -35,7 +29,7 @@ describe('Component: Movie', () => {
     expect(fixture.nativeElement.querySelector('.movie-poster > img').src).toContain(imageUrl);
   });
 
-  it('should display an image of the movie', () => {
+  it('should display the movie\'s release year', () => {
     let releaseYear = 1234;
     fixture.componentInstance.movie = { title: 'Watch This', release_year: releaseYear };
     fixture.detectChanges();
