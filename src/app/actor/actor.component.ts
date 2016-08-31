@@ -36,7 +36,7 @@ export class ActorComponent implements OnInit {
 
   private updateMovies(title: string) {
     this.actor.known_for.forEach((movie: Movie) => {
-      if (movie.title.toLowerCase() == title) {
+      if (movie.title.toLowerCase() === title) {
         movie.shown = true;
       }
     });
