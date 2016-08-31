@@ -10,7 +10,10 @@ install:
 before_script:
   - ng serve --prod &
 
-script: ng lint && ng test --watch=false && ng e2e
+script:
+ - ng lint
+ - ng test --watch=false
+ - ng e2e
 
 before_deploy:
   - npm run package
