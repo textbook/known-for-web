@@ -8,13 +8,12 @@ install:
   - npm install
 
 before_script:
-  - ng build
-  - ng serve &
+  - ng serve --prod &
 
 script: ng lint && ng test --watch=false && ng e2e
 
 before_deploy:
-  - ng build --prod --output-path=prod/
+  - npm run package
 
 deploy:
     edge: true
