@@ -63,6 +63,30 @@ describe('Component: ActorComponent', () => {
     expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
   });
 
+  describe('makeGuess method', () => {
+    it('should add inputs to a list', () => {
+      let instance = fixture.componentInstance;
+      let guesses = instance.guesses.length;
+      instance.makeGuess('hello world');
+      expect(instance.guesses.length).toBe(guesses + 1);
+    });
+
+    it('should ignore empty inputs', () => {
+      let instance = fixture.componentInstance;
+      let guesses = instance.guesses.length;
+      instance.makeGuess('');
+      expect(instance.guesses.length).toBe(guesses);
+    });
+    it('should ignore duplicate inputs', () => {
+      let instance = fixture.componentInstance;
+      let guesses = instance.guesses.length;
+      instance.makeGuess('hello world');
+      instance.makeGuess('hello world');
+      instance.makeGuess('hello world');
+      expect(instance.guesses.length).toBe(guesses + 1);
+    });
+  });
+
   function getActorName(componentFixture: ComponentFixture<ActorComponent>): string {
     return componentFixture.nativeElement.querySelector('h2.actor-name').innerText;
   }

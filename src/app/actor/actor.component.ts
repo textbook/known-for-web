@@ -25,7 +25,9 @@ export class ActorComponent implements OnInit {
   }
 
   makeGuess(title: string) {
-    this.guesses.push(title);
+    if (title.length > 0 && this.guesses.indexOf(title) === -1) {
+      this.guesses.push(title);
+    }
   }
 
   refreshActor() {
