@@ -9,7 +9,6 @@ install:
 
 before_script:
   - npm run pree2e
-  - ng build --prod
   - ng serve --prod &
   - sleep 10
 
