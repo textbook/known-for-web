@@ -8,12 +8,14 @@ install:
   - npm install
 
 before_script:
+  - ng build --prod
   - ng serve --prod &
+  - sleep 10
 
 script:
- - ng lint
- - ng test --watch=false
- - ng e2e
+  - ng lint
+  - ng test --watch=false
+  - npm run end2end
 
 before_deploy:
   - npm run package

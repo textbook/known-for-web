@@ -23,7 +23,7 @@ describe('known-for-web App', function() {
   it('should provide an input for guessing movie titles', () => {
     var title = 'Watch This';
     page.guessMovieTitle(title);
-    expect(page.getGuesses().last().getText()).toBe(title);
+    expect(page.getGuesses().last().getText()).toBe(title.toLowerCase());
   });
 
   it('should show a "Who?" button to change the displayed actor', () => {

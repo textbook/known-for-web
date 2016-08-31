@@ -10,7 +10,8 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "package": "rm -rf dist/ && ng build --prod"
+    "package": "rm -rf dist/ && ng build --prod",
+    "end2end": "npm run pree2e && node_modules/protractor/bin/protractor config/protractor.conf.js"
   },
   "private": true,
   "dependencies": {
