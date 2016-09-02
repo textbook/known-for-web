@@ -7,7 +7,7 @@
     <img class="actor-image" src="{{ actor?.image_url }}">
   </div>
 
-  <button (click)="refreshActor()" class="refresh">Who?</button>
+  <button (click)="refreshActor()" class="refresh">Skip</button>
 
   <kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
 

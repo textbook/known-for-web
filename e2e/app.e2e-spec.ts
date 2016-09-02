@@ -26,7 +26,7 @@ describe('known-for-web App', function() {
     expect(page.getGuesses().last().getText()).toBe(title.toLowerCase());
   });
 
-  it('should show a "Who?" button to change the displayed actor', () => {
+  it('should show a button to change the displayed actor', () => {
     let lastActor = page.getActorName();
     page.clickSkipButton();
     expect(page.getActorName()).not.toEqual(lastActor);

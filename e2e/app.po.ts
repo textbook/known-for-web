@@ -16,7 +16,7 @@ export class KnownForWebPage {
   }
 
   clickSkipButton() {
-    this.clickButton('Who?');
+    this.clickButton('Skip');
   }
 
   guessMovieTitle(title: string) {
