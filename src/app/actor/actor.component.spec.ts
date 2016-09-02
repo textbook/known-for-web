@@ -5,9 +5,11 @@ import { Observable } from 'rxjs/Rx';
 import * as moment from 'moment';
 
 import { ActorComponent } from './actor.component';
+import { MovieComponent } from '../movie/movie.component';
+
 import { ActorService } from '../services/actor.service';
 
-describe('Component: ActorComponent', () => {
+describe('Component: Actor', () => {
   let fixture: ComponentFixture<ActorComponent>;
   let mockActorService: any;
 
@@ -20,6 +22,13 @@ describe('Component: ActorComponent', () => {
       providers: [
         { provide: ActorService, useValue: mockActorService }
       ]
+    });
+
+    TestBed.overrideComponent(MovieComponent, {
+      set: {
+        template: '<div class="dummy-movie"></div>',
+        inputs: ['movie'],
+      }
     });
 
     TestBed.compileComponents().then(() => {
@@ -38,7 +47,7 @@ describe('Component: ActorComponent', () => {
   it('should show three related movies', () => {
     fixture.componentInstance.actor = { name: 'Hello World', known_for: [{}, {}, {}] };
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('kf-movie').length).toEqual(3);
+    expect(fixture.nativeElement.querySelectorAll('div.dummy-movie').length).toEqual(3);
   });
 
   it('should show an actor\'s image', () => {
