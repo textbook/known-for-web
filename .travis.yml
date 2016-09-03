@@ -18,7 +18,7 @@ script:
   - node_modules/protractor/bin/protractor ./protractor.conf.js
 
 before_deploy:
-  - rm -rf dist/ && ng build --target=production --env=stage
+  - npm run package
 
 deploy:
     edge: true
