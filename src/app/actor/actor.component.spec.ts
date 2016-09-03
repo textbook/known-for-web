@@ -3,12 +3,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
-import * as moment from 'moment';
-
 import { ActorComponent } from './actor.component';
 import { MovieComponent } from '../movie/movie.component';
-
-import { AgePipe } from '../pipes/age.pipe';
 
 import { ActorService } from '../services/actor.service';
 
@@ -24,7 +20,7 @@ describe('Component: Actor', () => {
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
-      declarations: [ActorComponent, AgePipe, MovieComponent],
+      declarations: [ActorComponent, MovieComponent],
       providers: [
         { provide: ActorService, useValue: mockActorService },
         { provide: Router, useValue: mockRouter }
@@ -70,11 +66,7 @@ describe('Component: Actor', () => {
   });
 
   it('should show the actor\'s age', () => {
-    let thirty_eight = moment().subtract(38, 'years').subtract(2, 'weeks');
-    fixture.componentInstance.actor = {
-      name: 'John Smith',
-      birthday: thirty_eight.format('YYYY-MM-DDT00:00:00Z'),
-    };
+    fixture.componentInstance.actor = { name: 'John Smith', age: 38 };
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
   });

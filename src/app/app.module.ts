@@ -8,19 +8,13 @@ import { ActorComponent } from './actor';
 import { AppComponent }  from './app.component';
 import { MovieComponent } from './movie/movie.component';
 
-import { AgePipe } from './pipes/age.pipe';
-
 import { routes } from './app.router';
 
 import { ActorService } from './services/actor.service';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes)],
-  declarations: [
-    AppComponent,
-    AboutComponent, ActorComponent, MovieComponent,
-    AgePipe
-  ],
+  declarations: [AppComponent, AboutComponent, ActorComponent, MovieComponent],
   bootstrap: [AppComponent],
   providers: [ActorService]
 })
