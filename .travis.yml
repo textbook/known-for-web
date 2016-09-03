@@ -9,7 +9,7 @@ install:
 
 before_script:
   - npm run pree2e
-  - ng serve &
+  - ng serve --env=ci &
   - sleep 30
 
 script:
@@ -18,7 +18,7 @@ script:
   - node_modules/protractor/bin/protractor ./protractor.conf.js
 
 before_deploy:
-  - npm run package
+  - rm -rf dist/ && ng build --target=prod --env=stage
 
 deploy:
     edge: true
