@@ -15,14 +15,13 @@ exports.config = {
     'phantomjs.binary.path': phantomJSPath
   },
   directConnect: false,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:4200',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
-  rootElement: 'kf-app',
   useAllAngular2AppRoots: true,
   beforeLaunch: function() {
     require('ts-node').register({

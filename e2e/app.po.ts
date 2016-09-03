@@ -1,6 +1,6 @@
 export class KnownForWebPage {
   navigateTo() {
-    return browser.get('/');
+    return browser.get('');
   }
 
   getTitleText() {
