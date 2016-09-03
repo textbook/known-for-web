@@ -9,13 +9,13 @@ install:
 
 before_script:
   - npm run pree2e
-  - ng serve --prod &
-  - sleep 10
+  - ng serve &
+  - sleep 30
 
 script:
   - ng lint
-  - ng test --watch=false
-  - node_modules/protractor/bin/protractor config/protractor.conf.js
+  - ng test --watch false
+  - node_modules/protractor/bin/protractor ./protractor.conf.js
 
 before_deploy:
   - npm run package
