@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Actor, Movie } from '../models';
-import { MovieComponent } from '../movie/movie.component';
-import { AgePipe } from '../pipes';
 import { ActorService } from '../services';
 
 @Component({
   selector: 'kf-actor',
   templateUrl: 'actor.component.html',
   styleUrls: ['actor.component.scss'],
-  directives: [MovieComponent],
-  pipes: [AgePipe]
 })
 export class ActorComponent implements OnInit {
 

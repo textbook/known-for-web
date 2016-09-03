@@ -6,11 +6,13 @@ import { ActorComponent } from './actor';
 import { AppComponent }  from './app.component';
 import { MovieComponent } from './movie/movie.component';
 
+import { AgePipe } from './pipes/age.pipe';
+
 import { ActorService } from './services/actor.service';
 
 @NgModule({
   imports: [BrowserModule, HttpModule],
-  declarations: [AppComponent, ActorComponent, MovieComponent],
+  declarations: [AppComponent, ActorComponent, MovieComponent, AgePipe],
   bootstrap: [AppComponent],
   providers: [ActorService]
 })

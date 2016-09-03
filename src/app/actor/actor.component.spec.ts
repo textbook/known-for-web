@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { ActorComponent } from './actor.component';
 import { MovieComponent } from '../movie/movie.component';
 
+import { AgePipe } from '../pipes/age.pipe';
+
 import { ActorService } from '../services/actor.service';
 
 describe('Component: Actor', () => {
@@ -18,9 +20,9 @@ describe('Component: Actor', () => {
     mockActorService.getActor.and.returnValue(Observable.from([{ name: 'Hans Muster' }]));
 
     TestBed.configureTestingModule({
-      declarations: [ActorComponent],
+      declarations: [ActorComponent, AgePipe, MovieComponent],
       providers: [
-        { provide: ActorService, useValue: mockActorService }
+        { provide: ActorService, useValue: mockActorService },
       ]
     });
 
