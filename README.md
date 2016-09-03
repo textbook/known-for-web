@@ -1,31 +1,64 @@
 # KnownForWeb
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.10.
+[![Build Status]][Travis]
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The UI for *"Known For"*, a simple, movie-based guessing game.
 
-## Code scaffolding
+## Background
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/route/class`.
+My cousin Alex suggested this game, originally just looking an actor up
+on IMDb and asking the other person to guess which top three films they
+were "known for". Having built [aTMDb] and as I'm currently using
+[Angular 2] at work, I thought this would make a nice little web app.
 
-## Build
+[![Powered by TMDb][TMDb logo]][TMDb]
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Development
 
-## Running unit tests
+This project was generated with [`angular-cli`] version 1.0.0-webpack.8.
+The easiest way to get it up and running is:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+ - Fork and clone the repository
+ - Run `npm install` to pull in the required packages
+ - Run `npm run pree2e` to update the webdriver for end-to-end testing
+ - Install the CLI globally using `npm install -g angular-cli@webpack`
+ - Set the `apiBaseUrl` in `src/environments/environment.dev.ts` to an
+   appropriate value (see the instructions on [`known-for-api`] to get
+   that running locally using e.g. PCF Dev or Docker)
+ - Run `ng serve` to boot up the dev server
+ - Point your browser at http://localhost:4200
 
-## Running end-to-end tests
+For more information see the CLI documentation.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
-Before running the tests make sure you are serving the app via `ng serve`.
+## Testing
 
-## Deploying to Github Pages
+The CLI provides commands for linting, unit tests and end-to-end tests.
+The last of these I prefer to run directly, as the CLI seems to suppress
+the output:
 
-Run `ng github-pages:deploy` to deploy to Github Pages.
+ - `ng lint` to run the linter
+ - `ng test` to run the unit tests (add `--watch false` to run once and
+   then stop)
+ - `node_modules/protractor/bin/protractor protractor.config.js` to run
+   the end-to-end tests (or `ng e2e` if you don't mind the output)
 
-## Further help
+## Deployment
 
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The project includes `manifest.yml` for deployment to [Cloud Foundry],
+as the staging site is currently hosted on [Pivotal Cloud Foundry]. This
+is as simple as installing the CF CLI, setting the target org and space
+appropriately and running `cf push`.
+
+The CLI also provides functionality to deploy to GitHub Pages, although
+I haven't yet tried it: `ng github-pages:deploy`.
+
+  [Angular 2]: https://angular.io
+  [`angular-cli`]: https://github.com/angular/angular-cli
+  [aTMDb]: https://pythonhosted.org/atmdb/
+  [Build Status]: https://travis-ci.org/textbook/known-for-web.svg?branch=master
+  [Cloud Foundry]: https://www.cloudfoundry.org/
+  [`known-for-api`]: https://github.com/textbook/known-for-api
+  [Pivotal Cloud Foundry]: https://pivotal.io/platform
+  [TMDb]: https://www.themoviedb.org/
+  [TMDb logo]: https://assets.tmdb.org/images/logos/var_2_1_PoweredByTMDB_Blk_Logo_Bree.png
+  [Travis]: https://travis-ci.org/textbook/known-for-web
