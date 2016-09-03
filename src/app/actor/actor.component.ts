@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Actor, Movie } from '../models';
 import { ActorService } from '../services';
@@ -13,7 +14,9 @@ export class ActorComponent implements OnInit {
   actor: Actor;
   guesses: string[];
 
-  constructor(private actorService: ActorService) { }
+  constructor(
+    private actorService: ActorService,
+    private router: Router) { }
 
   ngOnInit() {
     this.refreshActor();
@@ -42,5 +45,9 @@ export class ActorComponent implements OnInit {
       this.actor = actor;
       this.guesses = [];
     });
+  }
+
+  goToAboutPage() {
+    this.router.navigate(['/about']);
   }
 }

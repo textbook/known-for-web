@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -14,15 +15,19 @@ import { ActorService } from '../services/actor.service';
 describe('Component: Actor', () => {
   let fixture: ComponentFixture<ActorComponent>;
   let mockActorService: any;
+  let mockRouter: any;
 
   beforeEach(done => {
     mockActorService = jasmine.createSpyObj('ActorService', ['getActor']);
     mockActorService.getActor.and.returnValue(Observable.from([{ name: 'Hans Muster' }]));
 
+    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+
     TestBed.configureTestingModule({
       declarations: [ActorComponent, AgePipe, MovieComponent],
       providers: [
         { provide: ActorService, useValue: mockActorService },
+        { provide: Router, useValue: mockRouter }
       ]
     });
 
@@ -116,6 +121,13 @@ describe('Component: Actor', () => {
       instance.makeGuess('Another Match');
       expect(instance.actor.known_for[0].shown).toBeTruthy();
       expect(instance.actor.known_for[1].shown).toBeTruthy();
+    });
+  });
+
+  describe('goToHomePage method', () => {
+    it('should navigate to the home page', () => {
+      fixture.componentInstance.goToAboutPage();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/about']);
     });
   });
 

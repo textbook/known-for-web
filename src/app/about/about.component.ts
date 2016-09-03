@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'kf-about',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AboutComponent {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
+  goToHomePage() {
+    this.router.navigate(['']);
+  }
 }

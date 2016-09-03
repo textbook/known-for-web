@@ -20,4 +20,4 @@
   <p *ngFor="let guess of guesses" class="guess">{{ guess }}</p>
 </div>
 
-<button [routerLink]="['/about']" class="full-width" id="aboutButton">About Known For</button>
+<button (click)="goToAboutPage()" class="full-width" id="aboutButton">About Known For</button>
