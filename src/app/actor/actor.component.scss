@@ -12,24 +12,6 @@
   }
 }
 
-button, input {
-  font-size: 18px;
-}
-
-button {
-  background-color: gray;
-  border: none;
-  color: whitesmoke;
-  cursor: pointer;
-  display: inline-block;
-  padding: 10px;
-
-  &.refresh {
-    display: block;
-    width: 100%;
-  }
-}
-
 .input-form {
   display: flex;
   justify-content: space-between;

@@ -1,0 +1,41 @@
+<h2>About</h2>
+
+<p class="intro">Known For is a web application developed by <a href="http://hello.jonrshar.pe">
+  Jonathan Sharpe</a>, based on an idea by Alex Glossop. For notes on progress, see
+  <a href="https://github.com/textbook/about/issues/2">this GitHub issue</a>.</p>
+
+<h3>How to Play</h3>
+
+<p>The game is very simple; you are given a randomly-selected actor, and have to guess which three
+  movies they are <em>"known for"</em>. If you get the answer right, the title will be shown and the
+  movie's poster is un-blurred. If you don't have any idea, click <strong>Skip</strong> to pick a
+  new actor.</p>
+
+<h3>Data Source</h3>
+
+<p>Actor and movie data, including profile and poster images, are supplied by
+  <a href="https://www.themoviedb.org">TMDb</a>.</p>
+
+<div class="powered-by">
+  <img alt="Powered by TMDb"
+       src="https://assets.tmdb.org/images/logos/var_2_1_PoweredByTMDB_Blk_Logo_Bree.png">
+</div>
+
+<h3>Technology</h3>
+
+<div class="img-left">
+  <img src="https://angular.io/resources/images/logos/angular2/angular.png" alt="Angular 2 logo">
+  <p>The Known For front-end is built in <a href="http://angular.io">Angular 2</a>. It's written
+    using <a href="http://www.typescriptlang.org/">TypeScript</a>, a typed superset of
+    JavaScript.</p>
+</div>
+
+<div class="img-left">
+  <img alt="Python logo"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Python.svg/200px-Python.svg.png">
+  <p>The back-end API is implemented in <a href="https://python.org">Python</a> using
+    <a href="https://pythonhosted.org/atmdb/">aTMDb</a>, a lightweight, asynchronous wrapper around
+    the TMDb API.</p>
+</div>
+
+<button class="full-width" id="homeButton" [routerLink]="['']">Home</button>

@@ -1,14 +1,14 @@
-export class KnownForWebPage {
-  navigateTo() {
-    return browser.get('');
-  }
+import { WebPage } from './page.po';
 
-  getTitleText() {
+export class KnownForWebPage extends WebPage {
+  path = '';
+
+  getAppTitleText() {
     return element(by.css('kf-root h1')).getText();
   }
 
   getActorName() {
-    return element(by.css('kf-root h2.actor-name')).getText();
+    return this.getTitleText();
   }
 
   getMovieCount() {
@@ -19,6 +19,10 @@ export class KnownForWebPage {
     this.clickButton('Skip');
   }
 
+  clickAboutButton() {
+    this.clickButton('About Known For');
+  }
+
   guessMovieTitle(title: string) {
     element(by.name('movieTitle')).sendKeys(title);
     this.clickButton('Guess');
@@ -26,11 +30,5 @@ export class KnownForWebPage {
 
   getGuesses() {
     return element.all(by.css('p.guess'));
-  }
-
-  clickButton(buttonText: string) {
-    let button = element(by.buttonText(buttonText));
-    browser.wait(protractor.ExpectedConditions.elementToBeClickable(button), 2000);
-    return button.click();
   }
 }

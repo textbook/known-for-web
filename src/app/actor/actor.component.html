@@ -7,7 +7,7 @@
     <img class="actor-image" src="{{ actor?.image_url }}">
   </div>
 
-  <button (click)="refreshActor()" class="refresh">Skip</button>
+  <button (click)="refreshActor()" class="full-width">Skip</button>
 
   <kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
 
@@ -19,3 +19,5 @@
   <h3 *ngIf="guesses?.length > 0" class="guess">Guesses:</h3>
   <p *ngFor="let guess of guesses" class="guess">{{ guess }}</p>
 </div>
+
+<button [routerLink]="['/about']" class="full-width" id="aboutButton">About Known For</button>

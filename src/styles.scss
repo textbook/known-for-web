@@ -1,10 +1,37 @@
+//Resets
+
 body {
   background-color: #9b9b9b;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   margin: 0;
+  min-width: 320px;
 }
 
 h1, h2, h3, p {
   margin: 0;
   padding: 0;
+}
+
+//Global styles
+
+button, input {
+  font-size: 18px;
+}
+
+button {
+  background-color: gray;
+  border: none;
+  color: whitesmoke;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+
+  &.full-width {
+    display: block;
+    width: 100%;
+  }
+}
+
+#aboutButton, #homeButton {
+  margin: 15px 0;
 }

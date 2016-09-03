@@ -1,0 +1,29 @@
+h2, h3, p {
+  margin: 15px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.img-left {
+  display: flex;
+  margin: 15px;
+
+  img {
+    flex-shrink: 0;
+    height: 100px;
+    width: auto;
+  }
+}
+
+div.powered-by {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  img {
+    height: 80px;
+    width: auto;
+  }
+}

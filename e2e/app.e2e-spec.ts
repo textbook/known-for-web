@@ -1,6 +1,6 @@
 import { KnownForWebPage } from './app.po';
 
-describe('known-for-web App', function() {
+describe('Home Page', function() {
   let page: KnownForWebPage;
 
   beforeEach(() => {
@@ -9,7 +9,7 @@ describe('known-for-web App', function() {
   });
 
   it('should display website title', () => {
-    expect(page.getTitleText()).toEqual('Known For');
+    expect(page.getAppTitleText()).toEqual('Known For');
   });
 
   it('should show a person\'s name', () => {
@@ -30,5 +30,10 @@ describe('known-for-web App', function() {
     let lastActor = page.getActorName();
     page.clickSkipButton();
     expect(page.getActorName()).not.toEqual(lastActor);
+  });
+
+  it('should show a button to get more information about the app', () => {
+    page.clickAboutButton();
+    expect(page.getTitleText()).toEqual('About');
   });
 });
