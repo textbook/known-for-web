@@ -4,11 +4,11 @@ export class KnownForWebPage {
   }
 
   getTitleText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('kf-root h1')).getText();
   }
 
   getActorName() {
-    return element(by.css('app-root h2.actor-name')).getText();
+    return element(by.css('kf-root h2.actor-name')).getText();
   }
 
   getMovieCount() {

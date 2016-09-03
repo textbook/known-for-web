@@ -7,7 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/from';
 
 import { Actor } from '../models';
-import { environment } from '../environment';
+
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ActorService {

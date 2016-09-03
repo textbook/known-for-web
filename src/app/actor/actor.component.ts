@@ -6,10 +6,9 @@ import { AgePipe } from '../pipes';
 import { ActorService } from '../services';
 
 @Component({
-  moduleId: module.id,
   selector: 'kf-actor',
   templateUrl: 'actor.component.html',
-  styleUrls: ['actor.component.css'],
+  styleUrls: ['actor.component.scss'],
   directives: [MovieComponent],
   pipes: [AgePipe]
 })

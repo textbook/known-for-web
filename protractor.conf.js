@@ -8,7 +8,7 @@ var phantomJSPath = require('phantomjs-prebuilt').path;
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    '../e2e/**/*.e2e-spec.ts'
+    'e2e/**/*.e2e-spec.ts'
   ],
   capabilities: {
     'browserName': 'phantomjs',
@@ -22,6 +22,7 @@ exports.config = {
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
+  rootElement: 'kf-app',
   useAllAngular2AppRoots: true,
   beforeLaunch: function() {
     require('ts-node').register({
