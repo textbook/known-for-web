@@ -22,18 +22,40 @@ describe('Home Page', function() {
 
   it('should provide an input for guessing movie titles', () => {
     var title = 'Watch This';
+
     page.guessMovieTitle(title);
+
     expect(page.getGuesses().last().getText()).toBe(title.toLowerCase());
   });
 
-  it('should show a button to change the displayed actor', () => {
+  it('should provide suggested titles', () => {
+    page.inputMovieTitle('fight club');
+
+    expect(page.getSuggestions().count()).toBeGreaterThan(0);
+  });
+
+  it('should clear suggestions when a guess is made', () => {
+    page.inputMovieTitle('fight club');
+    expect(page.getSuggestions().count()).toBeGreaterThan(0);
+
+    page.clickGuessButton();
+
+    expect(page.getSuggestions().count()).toBe(0);
+  });
+
+  it('should show a button to change the displayed actor and clear the input', () => {
     let lastActor = page.getActorName();
+    page.inputMovieTitle('some guess');
+
     page.clickSkipButton();
+
+    expect(page.getCurrentGuess()).toEqual('');
     expect(page.getActorName()).not.toEqual(lastActor);
   });
 
   it('should show a button to get more information about the app', () => {
     page.clickAboutButton();
+
     expect(page.getTitleText()).toEqual('About');
   });
 });

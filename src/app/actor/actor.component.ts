@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Actor, Movie } from '../models';
-import { ActorService } from '../services';
+import { ActorService, MovieService } from '../services';
 
 @Component({
   selector: 'kf-actor',
@@ -13,9 +13,11 @@ export class ActorComponent implements OnInit {
 
   actor: Actor;
   guesses: string[];
+  suggestions: string[];
 
   constructor(
     private actorService: ActorService,
+    private movieService: MovieService,
     private router: Router) { }
 
   ngOnInit() {
@@ -30,6 +32,14 @@ export class ActorComponent implements OnInit {
       }
       this.guesses.push(title);
     }
+    this.suggestions = [];
+  }
+
+  suggestTitles(title: string) {
+    title = title.toLowerCase();
+    this.movieService.getMovieTitles(title).subscribe((titles: string[]) => {
+      this.suggestions = titles;
+    });
   }
 
   private updateMovies(title: string) {
@@ -41,7 +51,7 @@ export class ActorComponent implements OnInit {
   }
 
   refreshActor() {
-    this.actorService.getActor().subscribe(actor => {
+    this.actorService.getActor().subscribe((actor: Actor) => {
       this.actor = actor;
       this.guesses = [];
     });

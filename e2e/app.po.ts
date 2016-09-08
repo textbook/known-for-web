@@ -23,12 +23,28 @@ export class KnownForWebPage extends WebPage {
     this.clickButton('About Known For');
   }
 
-  guessMovieTitle(title: string) {
-    element(by.name('movieTitle')).sendKeys(title);
+  clickGuessButton() {
     this.clickButton('Guess');
   }
 
+  inputMovieTitle(title: string) {
+    element(by.name('movieTitle')).sendKeys(title);
+  }
+
+  guessMovieTitle(title: string) {
+    this.inputMovieTitle(title);
+    this.clickGuessButton();
+  }
+
+  getCurrentGuess() {
+    return element(by.name('movieTitle')).getText();
+  }
+
+  getSuggestions() {
+    return element.all(by.css('li.suggestion'));
+  }
+
   getGuesses() {
-    return element.all(by.css('p.guess'));
+    return element.all(by.css('li.guess'));
   }
 }

@@ -12,12 +12,18 @@
   <kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
 
   <div class="input-form" *ngIf="actor">
-    <input type="text" name="movieTitle" #title>
+    <input type="text" name="movieTitle" #title (keyup)="suggestTitles(title.value)">
     <button type="button" (click)="makeGuess(title.value)">Guess</button>
   </div>
 
+  <ul *ngIf="suggestions?.length > 0" class="suggestions">
+    <li *ngFor="let suggestion of suggestions" class="suggestion">{{ suggestion }}</li>
+  </ul>
+
   <h3 *ngIf="guesses?.length > 0" class="guess">Guesses:</h3>
-  <p *ngFor="let guess of guesses" class="guess">{{ guess }}</p>
+  <ul *ngIf="guesses?.length > 0" class="guesses">
+    <li *ngFor="let guess of guesses" class="guess">{{ guess }}</li>
+  </ul>
 </div>
 
 <button (click)="goToAboutPage()" class="full-width" id="aboutButton">About Known For</button>

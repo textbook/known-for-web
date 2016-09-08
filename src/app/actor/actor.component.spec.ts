@@ -6,16 +6,20 @@ import { Observable } from 'rxjs/Rx';
 import { ActorComponent } from './actor.component';
 import { MovieComponent } from '../movie/movie.component';
 
-import { ActorService } from '../services/actor.service';
+import { ActorService, MovieService } from '../services';
 
 describe('Component: Actor', () => {
   let fixture: ComponentFixture<ActorComponent>;
   let mockActorService: any;
   let mockRouter: any;
+  let mockMovieService: any;
 
   beforeEach(done => {
     mockActorService = jasmine.createSpyObj('ActorService', ['getActor']);
     mockActorService.getActor.and.returnValue(Observable.from([{ name: 'Hans Muster' }]));
+
+    mockMovieService = jasmine.createSpyObj('MovieService', ['getMovieTitles']);
+    mockMovieService.getMovieTitles.and.returnValue(Observable.from([[ 'foo', 'bar', 'baz' ]]));
 
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -23,6 +27,7 @@ describe('Component: Actor', () => {
       declarations: [ActorComponent, MovieComponent],
       providers: [
         { provide: ActorService, useValue: mockActorService },
+        { provide: MovieService, useValue: mockMovieService },
         { provide: Router, useValue: mockRouter }
       ]
     });
@@ -44,7 +49,7 @@ describe('Component: Actor', () => {
   it('should show an actor\'s name', () => {
     fixture.componentInstance.actor = { name: 'Hello World' };
     fixture.detectChanges();
-    expect(getActorName(fixture)).toEqual('Hello World');
+    expect(getActorName()).toEqual('Hello World');
   });
 
   it('should show three related movies', () => {
@@ -62,13 +67,35 @@ describe('Component: Actor', () => {
 
   it('should retrieve an actor on init', () => {
     expect(mockActorService.getActor).toHaveBeenCalled();
-    expect(getActorName(fixture)).toEqual('Hans Muster');
+    expect(getActorName()).toEqual('Hans Muster');
   });
 
   it('should show the actor\'s age', () => {
     fixture.componentInstance.actor = { name: 'John Smith', age: 38 };
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
+  });
+
+  describe('suggestTitles method', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = fixture.componentInstance;
+    });
+
+    it('should call the movie service', () => {
+      let title = 'some guess';
+      instance.suggestTitles(title);
+
+      expect(mockMovieService.getMovieTitles).toHaveBeenCalledWith(title);
+    });
+
+    it('should display the result', () => {
+      instance.suggestTitles('some guess');
+
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('li.suggestion').length).toBe(3);
+    });
   });
 
   describe('makeGuess method', () => {
@@ -114,16 +141,43 @@ describe('Component: Actor', () => {
       expect(instance.actor.known_for[0].shown).toBeTruthy();
       expect(instance.actor.known_for[1].shown).toBeTruthy();
     });
+
+    it('should clear the suggested titles', () => {
+      instance.suggestions = ['hello', 'world'];
+      fixture.detectChanges();
+      instance.makeGuess('something');
+      fixture.detectChanges();
+      expect(instance.suggestions.length).toBe(0);
+    });
   });
 
-  describe('goToHomePage method', () => {
-    it('should navigate to the home page', () => {
+  describe('refreshActor method', () => {
+    it('should call the actor service', () => {
+      fixture.componentInstance.refreshActor();
+
+      expect(mockActorService.getActor).toHaveBeenCalled();
+    });
+
+    it('should clear the guesses', () => {
+      fixture.componentInstance.guesses = ['foo', 'bar', 'baz'];
+      fixture.detectChanges();
+
+      fixture.componentInstance.refreshActor();
+
+      fixture.detectChanges();
+      expect(fixture.componentInstance.guesses.length).toBe(0);
+      expect(fixture.nativeElement.querySelectorAll('li.guess').length).toBe(0);
+    });
+  });
+
+  describe('goToAboutPage method', () => {
+    it('should navigate to the about page', () => {
       fixture.componentInstance.goToAboutPage();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/about']);
     });
   });
 
-  function getActorName(componentFixture: ComponentFixture<ActorComponent>): string {
-    return componentFixture.nativeElement.querySelector('h2.actor-name').innerText;
+  function getActorName(): string {
+    return fixture.nativeElement.querySelector('h2.actor-name').innerText;
   }
 });

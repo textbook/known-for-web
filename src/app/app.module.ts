@@ -10,12 +10,12 @@ import { MovieComponent } from './movie/movie.component';
 
 import { routes } from './app.router';
 
-import { ActorService } from './services/actor.service';
+import { ActorService, MovieService } from './services';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes)],
   declarations: [AppComponent, AboutComponent, ActorComponent, MovieComponent],
   bootstrap: [AppComponent],
-  providers: [ActorService]
+  providers: [ActorService, MovieService]
 })
 export class AppModule { }
