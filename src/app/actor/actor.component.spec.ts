@@ -94,7 +94,7 @@ describe('Component: Actor', () => {
       instance.suggestTitles('some guess');
 
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('li.suggestion').length).toBe(3);
+      expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(3);
     });
   });
 

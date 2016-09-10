@@ -41,10 +41,10 @@ export class KnownForWebPage extends WebPage {
   }
 
   getSuggestions() {
-    return element.all(by.css('li.suggestion'));
+    return element.all(by.css('.suggestion'));
   }
 
   getGuesses() {
-    return element.all(by.css('li.guess'));
+    return element.all(by.css('.guess'));
   }
 }

@@ -16,9 +16,10 @@
     <button type="button" (click)="makeGuess(title.value)">Guess</button>
   </div>
 
-  <ul *ngIf="suggestions?.length > 0" class="suggestions">
-    <li *ngFor="let suggestion of suggestions" class="suggestion">{{ suggestion }}</li>
-  </ul>
+  <div *ngIf="suggestions?.length > 0" class="suggestions">
+    <div *ngFor="let suggestion of suggestions" class="suggestion"
+        (click)="makeGuess(suggestion)">{{ suggestion }}</div>
+  </div>
 
   <h3 *ngIf="guesses?.length > 0" class="guess">Guesses:</h3>
   <ul *ngIf="guesses?.length > 0" class="guesses">

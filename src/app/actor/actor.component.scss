@@ -15,10 +15,28 @@
 .input-form {
   display: flex;
   justify-content: space-between;
-  margin: 15px;
+  margin: 15px 15px 0 15px;
+
+  button {
+    flex-shrink: 0;
+  }
 
   input {
     width: 100%;
+  }
+}
+
+.suggestion {
+  background-color: #d8d8d8;
+  border-bottom: 1px solid #808080;
+  box-sizing:border-box;
+  display: block;
+  margin: 0 15px;
+  padding: 10px 15px;
+  width: 75%;
+
+  &:last-child {
+    border-bottom: none;
   }
 }
 

@@ -34,6 +34,16 @@ describe('Home Page', function() {
     expect(page.getSuggestions().count()).toBeGreaterThan(0);
   });
 
+  it('should allow suggestions to be guessed', done => {
+    page.inputMovieTitle('hello');
+    let guess = page.getSuggestions().first();
+    guess.getText().then(text => {
+      guess.click();
+      expect(page.getGuesses().last().getText()).toBe(text.toLowerCase());
+      done();
+    });
+  });
+
   it('should clear suggestions when a guess is made', () => {
     page.inputMovieTitle('fight club');
     expect(page.getSuggestions().count()).toBeGreaterThan(0);
