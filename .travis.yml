@@ -3,7 +3,7 @@ node_js:
   - "6"
 
 install:
-  - npm install -g angular-cli@webpack
+  - npm install -g angular-cli
   - npm install -g karma
   - npm install
 
@@ -14,8 +14,8 @@ before_script:
 
 script:
   - ng lint
-  - ng test --watch false
-  - node_modules/protractor/bin/protractor ./protractor.conf.js
+  - ng test --no-watch
+  - npm run endtoend
 
 before_deploy:
   - npm run package
