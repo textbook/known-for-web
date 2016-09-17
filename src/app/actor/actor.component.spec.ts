@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
@@ -25,10 +26,12 @@ describe('Component: Actor', () => {
 
     TestBed.configureTestingModule({
       declarations: [ActorComponent, MovieComponent],
+      imports: [ReactiveFormsModule],
       providers: [
+        FormBuilder,
         { provide: ActorService, useValue: mockActorService },
         { provide: MovieService, useValue: mockMovieService },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
       ]
     });
 
@@ -76,25 +79,24 @@ describe('Component: Actor', () => {
     expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
   });
 
-  describe('suggestTitles method', () => {
+  describe('suggestionFilter method', () => {
     let instance;
 
     beforeEach(() => {
       instance = fixture.componentInstance;
-    });
-
-    it('should call the movie service', () => {
-      let title = 'some guess';
-      instance.suggestTitles(title);
-
-      expect(mockMovieService.getMovieTitles).toHaveBeenCalledWith(title);
-    });
-
-    it('should display the result', () => {
-      instance.suggestTitles('some guess');
-
+      instance.suggestions = ['foo', 'bar', 'baz'];
       fixture.detectChanges();
+    });
+
+    it('should return true for non-empty strings', () => {
+      expect(instance.suggestionFilter('hello')).toBeTruthy();
       expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(3);
+    });
+
+    it('should return false and clear suggestions for empty strings', () => {
+      expect(instance.suggestionFilter('')).toBeFalsy();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(0);
     });
   });
 
@@ -103,6 +105,13 @@ describe('Component: Actor', () => {
 
     beforeEach(() => {
       instance = fixture.componentInstance;
+    });
+
+    it('should use the input value if none provided', () => {
+      let title = 'a movie title';
+      instance.guessForm.controls['title'].setValue(title);
+      instance.makeGuess();
+      expect(instance.guesses.pop()).toBe(title);
     });
 
     it('should add inputs to a list', () => {

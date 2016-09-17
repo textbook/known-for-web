@@ -11,10 +11,10 @@
 
   <kf-movie *ngFor="let movie of (actor?.known_for || [])" [movie]="movie"></kf-movie>
 
-  <div class="input-form" *ngIf="actor">
-    <input type="text" name="movieTitle" #title (keyup)="suggestTitles(title.value)">
-    <button type="button" (click)="makeGuess(title.value)">Guess</button>
-  </div>
+  <form class="input-form" *ngIf="actor" [formGroup]="guessForm" (ngSubmit)="makeGuess()">
+    <input type="text" name="movieTitle" formControlName="title">
+    <button type="submit">Guess</button>
+  </form>
 
   <div *ngIf="suggestions?.length > 0" class="suggestions">
     <div *ngFor="let suggestion of suggestions" class="suggestion"
