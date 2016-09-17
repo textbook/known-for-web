@@ -8,6 +8,7 @@ install:
   - npm install
 
 before_script:
+  - ng -v
   - npm run pree2e
   - ng serve --env=ci &
   - sleep 30
