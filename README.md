@@ -15,13 +15,13 @@ were "known for". Having built [aTMDb] and as I'm currently using
 
 ## Development
 
-This project was generated with [`angular-cli`] version 1.0.0-webpack.8.
-The easiest way to get it up and running is:
+This project was generated with [`angular-cli`]. The easiest way to get
+it up and running is:
 
  - Fork and clone the repository
  - Run `npm install` to pull in the required packages
  - Run `npm run pree2e` to update the webdriver for end-to-end testing
- - Install the CLI globally using `npm install -g angular-cli@webpack`
+ - Install the CLI globally using `npm install -g angular-cli`
  - Set the `apiBaseUrl` in `src/environments/environment.dev.ts` to an
    appropriate value (see the instructions on [`known-for-api`] to get
    that running locally using e.g. PCF Dev or Docker)
@@ -39,12 +39,19 @@ the output:
  - `ng lint` to run the linter
  - `ng test` to run the unit tests (add `--watch false` to run once and
    then stop)
- - `node_modules/protractor/bin/protractor protractor.config.js` to run
-   the end-to-end tests (or `ng e2e` if you don't mind the output)
+ - `npm run endtoend` to run the end-to-end tests (or `ng e2e` if you
+   don't mind the output)
+
+Alternatively, `npm run testall` to run all three in sequence.
 
 ## Deployment
 
-The project includes `manifest.yml` for deployment to [Cloud Foundry],
+You can build in production mode with `npm run package`; make sure you
+have set an appropriate API endpoint for the staging mode (see
+`src/environments/environment.stage.ts`), as this is currently used by
+the `package` command.
+
+The project includes a `manifest.yml` for deployment to [Cloud Foundry],
 as the staging site is currently hosted on [Pivotal Cloud Foundry]. This
 is as simple as installing the CF CLI, setting the target org and space
 appropriately and running `cf push`.
