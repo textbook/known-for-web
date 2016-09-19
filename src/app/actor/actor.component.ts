@@ -15,6 +15,7 @@ import { ActorService, MovieService } from '../services';
 export class ActorComponent implements OnDestroy, OnInit {
 
   actor: Actor;
+  _completed: boolean;
   guesses: string[];
   guessForm: FormGroup;
   sub: Subscription;
@@ -43,6 +44,15 @@ export class ActorComponent implements OnDestroy, OnInit {
     this.sub.unsubscribe();
   }
 
+  get completed() {
+    return this._completed;
+  }
+
+  set completed(value: boolean) {
+    this.title[value ? 'disable' : 'enable']();
+    this._completed = value;
+  }
+
   suggestionFilter(title: string): boolean {
     if (title.length > 0) {
       return true;
@@ -66,16 +76,21 @@ export class ActorComponent implements OnDestroy, OnInit {
   }
 
   private updateMovies(title: string) {
+    let allShown = true;
     this.actor.known_for.forEach((movie: Movie) => {
       if (movie.title.toLowerCase() === title) {
         movie.shown = true;
+      } else if (!movie.shown) {
+        allShown = false;
       }
     });
+    this.completed = allShown;
   }
 
   refreshActor() {
     this.actorService.getActor().subscribe((actor: Actor) => {
       this.actor = actor;
+      this.completed = false;
       this.guesses = [];
     });
   }

@@ -218,6 +218,34 @@ describe('Component: Actor', () => {
       fixture.detectChanges();
       expect(instance.suggestions.length).toBe(0);
     });
+
+    describe('when last movie guessed', () => {
+      let title = 'the last one';
+
+      beforeEach(() => {
+        fixture.componentInstance.actor.known_for = [
+          { shown: true, title: 'first' },
+          { shown: true, title: 'second' },
+          { shown: false, title },
+        ];
+        fixture.detectChanges();
+      });
+
+      it('should disable the guess inputs', () => {
+        fixture.componentInstance.makeGuess(title);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('input[name=movieTitle]').disabled).toBeTruthy();
+        expect(fixture.nativeElement.querySelector('#guessButton').disabled).toBeTruthy();
+      });
+
+      it('should change the Skip button to Next', () => {
+        fixture.componentInstance.makeGuess(title);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('#skipButton').innerText).toBe('Next');
+      });
+    });
   });
 
   describe('refreshActor method', () => {
