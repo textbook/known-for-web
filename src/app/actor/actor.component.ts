@@ -72,7 +72,7 @@ export class ActorComponent implements OnDestroy, OnInit {
       }
       this.guesses.push(title);
     }
-    this.suggestions = [];
+    this.clearInput();
   }
 
   private updateMovies(title: string) {
@@ -90,9 +90,15 @@ export class ActorComponent implements OnDestroy, OnInit {
   refreshActor() {
     this.actorService.getActor().subscribe((actor: Actor) => {
       this.actor = actor;
+      this.clearInput();
       this.completed = false;
       this.guesses = [];
     });
+  }
+
+  clearInput() {
+    this.suggestions = [];
+    this.title.setValue('');
   }
 
   goToAboutPage() {

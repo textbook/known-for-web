@@ -8,15 +8,8 @@ describe('Home Page', function() {
     page.navigateTo();
   });
 
-  it('should display website title', () => {
-    expect(page.getAppTitleText()).toEqual('Known For');
-  });
-
-  it('should show a person\'s name', () => {
+  it('should show actor details', () => {
     expect(page.getActorName()).not.toBeNull();
-  });
-
-  it('should show up to three movies the person is known for', () => {
     expect(page.getMovieCount()).toBeGreaterThan(0);
   });
 
@@ -25,35 +18,23 @@ describe('Home Page', function() {
 
     page.guessMovieTitle(title);
 
-    expect(page.getGuesses().last().getText()).toBe(title.toLowerCase());
+    validateGuess(title.toLowerCase());
   });
 
-  it('should provide suggested titles', () => {
-    page.inputMovieTitle('fight club');
 
-    expect(page.getSuggestions().count()).toBeGreaterThan(0);
-  });
-
-  it('should allow suggestions to be guessed', done => {
+  it('should provide suggested titles to be guessed', done => {
     page.inputMovieTitle('hello');
+    expect(page.getSuggestions().count()).toBeGreaterThan(0);
+
     let guess = page.getSuggestions().first();
     guess.getText().then(text => {
       guess.click();
-      expect(page.getGuesses().last().getText()).toBe(text.toLowerCase());
+      validateGuess(text);
       done();
     });
   });
 
-  it('should clear suggestions when a guess is made', () => {
-    page.inputMovieTitle('fight club');
-    expect(page.getSuggestions().count()).toBeGreaterThan(0);
-
-    page.clickGuessButton();
-
-    expect(page.getSuggestions().count()).toBe(0);
-  });
-
-  it('should clear suggestions when the guess is deleted', () => {
+  it('should clear suggestions when a guess is removed', () => {
     expect(page.getSuggestions().count()).toBe(0);
     page.inputMovieTitle('fight club');
     expect(page.getSuggestions().count()).toBeGreaterThan(0);
@@ -63,14 +44,14 @@ describe('Home Page', function() {
     expect(page.getSuggestions().count()).toBe(0);
   });
 
-  it('should show a button to change the displayed actor and clear the input', () => {
+  it('should show a button to change the displayed actor', () => {
     let lastActor = page.getActorName();
     page.inputMovieTitle('some guess');
 
     page.clickSkipButton();
 
-    expect(page.getCurrentGuess()).toEqual('');
     expect(page.getActorName()).not.toEqual(lastActor);
+    checkCleared();
   });
 
   it('should show a button to get more information about the app', () => {
@@ -78,4 +59,14 @@ describe('Home Page', function() {
 
     expect(page.getTitleText()).toEqual('About');
   });
+
+  function validateGuess(text) {
+    expect(page.getGuesses().last().getText()).toBe(text.toLowerCase());
+    checkCleared();
+  }
+
+  function checkCleared() {
+    expect(page.getCurrentGuess()).toEqual('');
+    expect(page.getSuggestions().count()).toBe(0);
+  }
 });
