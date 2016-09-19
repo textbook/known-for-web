@@ -53,6 +53,16 @@ describe('Home Page', function() {
     expect(page.getSuggestions().count()).toBe(0);
   });
 
+  it('should clear suggestions when the guess is deleted', () => {
+    expect(page.getSuggestions().count()).toBe(0);
+    page.inputMovieTitle('fight club');
+    expect(page.getSuggestions().count()).toBeGreaterThan(0);
+
+    page.removeGuess();
+
+    expect(page.getSuggestions().count()).toBe(0);
+  });
+
   it('should show a button to change the displayed actor and clear the input', () => {
     let lastActor = page.getActorName();
     page.inputMovieTitle('some guess');

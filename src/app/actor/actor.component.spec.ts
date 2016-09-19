@@ -79,6 +79,66 @@ describe('Component: Actor', () => {
     expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
   });
 
+  describe('movieTitle input', () => {
+    let inputElement: HTMLInputElement;
+
+    beforeEach(() => {
+      inputElement = fixture.nativeElement.querySelector('input[name=movieTitle]');
+    });
+
+    it('should be filtered', done => {
+      let spy = spyOn(fixture.componentInstance, 'suggestionFilter').and.returnValue(false);
+      let title = 'foo';
+      sendInput(title).then(() => {
+        expect(spy).toHaveBeenCalledWith(title);
+        done();
+      });
+    });
+
+    it('should fetch suggestions when non-empty input is provided', done => {
+      let title = 'hello';
+      sendInput(title).then(() => {
+        expect(mockMovieService.getMovieTitles).toHaveBeenCalledWith(title);
+        done();
+      });
+    });
+
+    it('should not fetch suggestions when empty input is provided', done => {
+      sendInput('').then(() => {
+        expect(mockMovieService.getMovieTitles).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should show suggestions', done => {
+      sendInput('fight club').then(() => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(3);
+        done();
+      });
+    });
+
+    it('should clear the suggestions when the input is removed', done => {
+      sendInput('fight club').then(() => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(3);
+
+        sendInput('').then(() => {
+          fixture.detectChanges();
+          expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(0);
+          done();
+        });
+      });
+    });
+
+    function sendInput(text: string) {
+      inputElement.value = text;
+      inputElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      return fixture.whenStable();
+    }
+  });
+
   describe('suggestionFilter method', () => {
     let instance;
 

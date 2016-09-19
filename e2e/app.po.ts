@@ -47,4 +47,11 @@ export class KnownForWebPage extends WebPage {
   getGuesses() {
     return element.all(by.css('.guess'));
   }
+
+  removeGuess() {
+    element(by.name('movieTitle')).sendKeys(
+      protractor.Key.CONTROL, 'a', protractor.Key.NULL,
+      protractor.Key.BACK_SPACE
+    );
+  }
 }
