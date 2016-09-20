@@ -1,4 +1,4 @@
-import { KnownForWebPage } from './app.po';
+import { KnownForWebPage } from './pages';
 
 describe('Home Page', function() {
   let page: KnownForWebPage;

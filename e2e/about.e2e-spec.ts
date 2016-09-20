@@ -1,4 +1,4 @@
-import { AboutWebPage } from './about.po';
+import { AboutWebPage } from './pages';
 
 describe('About Page', function() {
   let page: AboutWebPage;
