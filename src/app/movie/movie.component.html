@@ -1,4 +1,4 @@
-<div class="movie-details">
+<div class="movie-details" (click)="movieClicked.emit(movie.title)">
   <div class="movie-poster">
     <img src="{{ movie?.image_url }}" [ngClass]="{ blurred: !movie?.shown, shown: true }">
   </div>

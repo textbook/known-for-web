@@ -3,16 +3,12 @@ import { WebPage } from './page.po';
 export class KnownForWebPage extends WebPage {
   path = '';
 
-  getAppTitleText() {
-    return element(by.css('kf-root h1')).getText();
-  }
-
   getActorName() {
     return this.getTitleText();
   }
 
-  getMovieCount() {
-    return element.all(by.css('kf-movie .movie-details')).count();
+  getMovies() {
+    return element.all(by.css('kf-movie .movie-details'));
   }
 
   clickSkipButton() {
@@ -27,8 +23,12 @@ export class KnownForWebPage extends WebPage {
     this.clickButton('Guess');
   }
 
+  getTitleInput() {
+    return element(by.name('movieTitle'))
+  }
+
   inputMovieTitle(title: string) {
-    element(by.name('movieTitle')).sendKeys(title);
+   this.getTitleInput().sendKeys(title);
   }
 
   guessMovieTitle(title: string) {
@@ -37,7 +37,7 @@ export class KnownForWebPage extends WebPage {
   }
 
   getCurrentGuess() {
-    return element(by.name('movieTitle')).getText();
+    return this.getTitleInput().getText();
   }
 
   getSuggestions() {
@@ -49,7 +49,7 @@ export class KnownForWebPage extends WebPage {
   }
 
   removeGuess() {
-    element(by.name('movieTitle')).sendKeys(
+    this.getTitleInput().sendKeys(
       protractor.Key.CONTROL, 'a', protractor.Key.NULL,
       protractor.Key.BACK_SPACE
     );

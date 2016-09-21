@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -22,10 +22,14 @@ export class ActorComponent implements OnDestroy, OnInit {
   suggestions: string[];
   title: FormControl;
 
-  constructor(private actorService: ActorService,
-              private movieService: MovieService,
-              private router: Router,
-              private builder: FormBuilder) {
+  constructor(
+      private actorService: ActorService,
+      private movieService: MovieService,
+      private router: Router,
+      private builder: FormBuilder,
+      private renderer: Renderer,
+      private element: ElementRef
+  ) {
     this.title = new FormControl('', Validators.required);
     this.guessForm = this.builder.group({ title: this.title });
     this.sub = this.title.valueChanges
@@ -75,18 +79,6 @@ export class ActorComponent implements OnDestroy, OnInit {
     this.clearInput();
   }
 
-  private updateMovies(title: string) {
-    let allShown = true;
-    this.actor.known_for.forEach((movie: Movie) => {
-      if (movie.title.toLowerCase() === title) {
-        movie.shown = true;
-      } else if (!movie.shown) {
-        allShown = false;
-      }
-    });
-    this.completed = allShown;
-  }
-
   refreshActor() {
     this.actorService.getActor().subscribe((actor: Actor) => {
       this.actor = actor;
@@ -103,5 +95,22 @@ export class ActorComponent implements OnDestroy, OnInit {
 
   goToAboutPage() {
     this.router.navigate(['/about']);
+  }
+
+  onMovieClicked() {
+    let renderElement = this.element.nativeElement.querySelector('input[name=movieTitle]');
+    this.renderer.invokeElementMethod(renderElement, 'focus');
+  }
+
+  private updateMovies(title: string) {
+    let allShown = true;
+    this.actor.known_for.forEach((movie: Movie) => {
+      if (movie.title.toLowerCase() === title) {
+        movie.shown = true;
+      } else if (!movie.shown) {
+        allShown = false;
+      }
+    });
+    this.completed = allShown;
   }
 }

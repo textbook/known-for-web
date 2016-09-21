@@ -1,3 +1,4 @@
+import { ElementRef, Renderer } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,6 +15,8 @@ describe('Component: Actor', () => {
   let mockActorService: any;
   let mockRouter: any;
   let mockMovieService: any;
+  let mockElementRef: any;
+  let mockRenderer: any;
 
   beforeEach(done => {
     mockActorService = jasmine.createSpyObj('ActorService', ['getActor']);
@@ -24,11 +27,18 @@ describe('Component: Actor', () => {
 
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
+    mockElementRef = { nativeElement: jasmine.createSpyObj('NativeElement', ['querySelector']) };
+    mockElementRef.nativeElement.querySelector.and.returnValue({});
+
+    mockRenderer = jasmine.createSpyObj('Renderer', ['invokeElementMethod']);
+
     TestBed.configureTestingModule({
       declarations: [ActorComponent, MovieComponent],
       imports: [ReactiveFormsModule],
       providers: [
         FormBuilder,
+        { provide: Renderer, useValue: mockRenderer },
+        { provide: ElementRef, useValue: mockElementRef },
         { provide: ActorService, useValue: mockActorService },
         { provide: MovieService, useValue: mockMovieService },
         { provide: Router, useValue: mockRouter },

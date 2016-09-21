@@ -10,7 +10,7 @@ describe('Home Page', function() {
 
   it('should show actor details', () => {
     expect(page.getActorName()).not.toBeNull();
-    expect(page.getMovieCount()).toBeGreaterThan(0);
+    expect(page.getMovies().count()).toBeGreaterThan(0);
   });
 
   it('should provide an input for guessing movie titles', () => {
@@ -21,6 +21,11 @@ describe('Home Page', function() {
     validateGuess(title.toLowerCase());
   });
 
+  it('should focus the input when a movie is clicked', () => {
+    page.getMovies().first().click();
+    let activeElement = browser.driver.switchTo().activeElement();
+    expect(page.getTitleInput().getId()).toBe(activeElement.getId())
+  });
 
   it('should provide suggested titles to be guessed', done => {
     page.inputMovieTitle('hello');
