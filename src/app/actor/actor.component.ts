@@ -82,6 +82,7 @@ export class ActorComponent implements OnDestroy, OnInit {
   }
 
   refreshActor() {
+    this.loadingBar.progress = 20;
     this.loadingBar.start();
     this.actorService.getActor().subscribe((actor: Actor) => {
       this.loadingBar.complete();
