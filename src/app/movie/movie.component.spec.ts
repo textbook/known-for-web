@@ -16,25 +16,6 @@ describe('Component: Movie', () => {
     });
   });
 
-  describe('when clicked', () => {
-    let instance: MovieComponent;
-
-    beforeEach(() => {
-      instance = fixture.componentInstance;
-    });
-
-    it('should emit a "movieClicked" event', () => {
-      let spy = spyOn(instance.movieClicked, 'emit');
-      let title = 'hello world';
-      fixture.componentInstance.movie = { title };
-      fixture.detectChanges();
-
-      fixture.nativeElement.querySelector('.movie-details').click();
-
-      expect(spy).toHaveBeenCalledWith(title);
-    });
-  });
-
   describe('when shown', () => {
     let movie: Movie;
 

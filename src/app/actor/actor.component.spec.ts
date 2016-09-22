@@ -45,13 +45,6 @@ describe('Component: Actor', () => {
       ]
     });
 
-    TestBed.overrideComponent(MovieComponent, {
-      set: {
-        template: '<div class="dummy-movie"></div>',
-        inputs: ['movie'],
-      }
-    });
-
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(ActorComponent);
       fixture.detectChanges();
@@ -68,7 +61,7 @@ describe('Component: Actor', () => {
   it('should show three related movies', () => {
     fixture.componentInstance.actor = { name: 'Hello World', known_for: [{}, {}, {}] };
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('div.dummy-movie').length).toEqual(3);
+    expect(fixture.nativeElement.querySelectorAll('kf-movie').length).toEqual(3);
   });
 
   it('should show an actor\'s image', () => {
@@ -281,6 +274,26 @@ describe('Component: Actor', () => {
     it('should navigate to the about page', () => {
       fixture.componentInstance.goToAboutPage();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/about']);
+    });
+  });
+
+  describe('onMovieClicked method', () => {
+    it('should be triggered by clicking on a movie', () => {
+      let spy = spyOn(fixture.componentInstance, 'onMovieClicked');
+      fixture.componentInstance.actor.known_for = [{ title: 'movie title' }];
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('kf-movie').click();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should focus the input', () => {
+      let spy = spyOn(fixture.nativeElement.querySelector('input[name=movieTitle]'), 'focus');
+
+      fixture.componentInstance.onMovieClicked();
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 

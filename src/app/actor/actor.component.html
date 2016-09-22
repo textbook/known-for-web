@@ -12,7 +12,7 @@
   </button>
 
   <kf-movie *ngFor="let movie of (actor?.known_for || [])"
-      [movie]="movie" (movieClicked)="onMovieClicked()"></kf-movie>
+      [movie]="movie" (click)="onMovieClicked()"></kf-movie>
 
   <form class="input-form" *ngIf="actor" [formGroup]="guessForm" (ngSubmit)="makeGuess()">
     <input type="text" name="movieTitle" formControlName="title">
