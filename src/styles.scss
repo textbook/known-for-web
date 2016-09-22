@@ -30,8 +30,21 @@ button {
     display: block;
     width: 100%;
   }
+
+  &:active {
+    background-color: #606060;
+  }
 }
 
 #aboutButton, #homeButton {
   margin: 15px 0;
+}
+
+//Overrides
+ng2-slim-loading-bar > .slim-loading-bar {
+  position: relative;
+
+  .slim-loading-bar-progress {
+    box-shadow: none;
+  }
 }

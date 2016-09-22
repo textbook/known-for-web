@@ -4,6 +4,8 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
+import { SlimLoadingBarModule, SlimLoadingBarService } from 'ng2-slim-loading-bar';
+
 import { AboutComponent } from './about';
 import { ActorComponent } from './actor';
 import { AppComponent } from './app.component';
@@ -14,9 +16,15 @@ import { routes } from './app.router';
 import { ActorService, MovieService } from './services';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, ReactiveFormsModule, RouterModule.forRoot(routes)],
+  imports: [
+    BrowserModule,
+    HttpModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes),
+    SlimLoadingBarModule.forRoot(),
+  ],
   declarations: [AppComponent, AboutComponent, ActorComponent, MovieComponent],
   bootstrap: [AppComponent],
-  providers: [ActorService, MovieService]
+  providers: [ActorService, MovieService, SlimLoadingBarService]
 })
 export class AppModule { }

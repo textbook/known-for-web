@@ -6,6 +6,7 @@ import { Subscription } from  'rxjs/Rx';
 
 import { Actor, Movie } from '../models';
 import { ActorService, MovieService } from '../services';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'kf-actor',
@@ -28,7 +29,8 @@ export class ActorComponent implements OnDestroy, OnInit {
       private router: Router,
       private builder: FormBuilder,
       private renderer: Renderer,
-      private element: ElementRef
+      private element: ElementRef,
+      public loadingBar: SlimLoadingBarService
   ) {
     this.title = new FormControl('', Validators.required);
     this.guessForm = this.builder.group({ title: this.title });
@@ -80,7 +82,9 @@ export class ActorComponent implements OnDestroy, OnInit {
   }
 
   refreshActor() {
+    this.loadingBar.start();
     this.actorService.getActor().subscribe((actor: Actor) => {
+      this.loadingBar.complete();
       this.actor = actor;
       this.clearInput();
       this.completed = false;

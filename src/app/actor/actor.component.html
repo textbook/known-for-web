@@ -10,6 +10,7 @@
   <button (click)="refreshActor()" class="full-width" id="skipButton">
     {{ completed ? 'Next' : 'Skip' }}
   </button>
+  <ng2-slim-loading-bar [color]="'#0074D9'"></ng2-slim-loading-bar>
 
   <kf-movie *ngFor="let movie of (actor?.known_for || [])"
       [movie]="movie" (click)="onMovieClicked()"></kf-movie>

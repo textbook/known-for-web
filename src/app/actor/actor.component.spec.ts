@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { SlimLoadingBarModule, SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Observable } from 'rxjs/Rx';
 
 import { ActorComponent } from './actor.component';
@@ -34,9 +35,10 @@ describe('Component: Actor', () => {
 
     TestBed.configureTestingModule({
       declarations: [ActorComponent, MovieComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, SlimLoadingBarModule],
       providers: [
         FormBuilder,
+        SlimLoadingBarService,
         { provide: Renderer, useValue: mockRenderer },
         { provide: ElementRef, useValue: mockElementRef },
         { provide: ActorService, useValue: mockActorService },
@@ -267,6 +269,17 @@ describe('Component: Actor', () => {
       fixture.detectChanges();
       expect(fixture.componentInstance.guesses.length).toBe(0);
       expect(fixture.nativeElement.querySelectorAll('li.guess').length).toBe(0);
+    });
+
+    it('should invoke the progress bar', () => {
+      spyOn(fixture.componentInstance.loadingBar, 'start');
+      spyOn(fixture.componentInstance.loadingBar, 'complete');
+
+      fixture.componentInstance.refreshActor();
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.loadingBar.start).toHaveBeenCalled();
+      expect(fixture.componentInstance.loadingBar.complete).toHaveBeenCalled();
     });
   });
 
