@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseRequestOptions,
+  ConnectionBackend,
   Http,
   RequestMethod,
   ResponseOptions,
   Response,
-  ConnectionBackend,
-  BaseRequestOptions
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
@@ -82,7 +82,7 @@ describe('Service: Actor', () => {
         expect(connection.request.url.toString()).toMatch(endpointRegex);
         expect(connection.request.method).toEqual(RequestMethod.Get);
 
-        connection.mockError({ status: 999, message: 'panic!'});
+        connection.mockError(<Error>{ status: 999, message: 'panic!', name: 'problem' });
       });
 
       service.getActor().subscribe(response => {
@@ -101,7 +101,7 @@ describe('Service: Actor', () => {
 
     it('should be case-insensitive', () => {
       let synopsis = 'This contains tHe tItLe but not in the same case';
-      response.json.and.returnValue({ known_for: [{ title: 'The Title', synopsis }]});
+      response.json.and.returnValue({ known_for: [{ title: 'The Title', synopsis }] });
 
       let result = service.processResponse(response);
 
@@ -110,7 +110,7 @@ describe('Service: Actor', () => {
 
     it('should not alter synopses without the title in', () => {
       let synopsis = 'The title is not in this';
-      response.json.and.returnValue({ known_for: [{ title: 'something else', synopsis }]});
+      response.json.and.returnValue({ known_for: [{ title: 'something else', synopsis }] });
 
       let result = service.processResponse(response);
 
@@ -118,11 +118,13 @@ describe('Service: Actor', () => {
     });
 
     it('should process all movies', () => {
-      response.json.and.returnValue({ known_for: [
-        { title: 'First Title', synopsis: 'First synopsis without title' },
-        { title: 'Second Title', synopsis: 'Second synopsis contains second title to remove' },
-        { title: 'Third Title', synopsis: 'Third title synopsis should also be processed' },
-      ]});
+      response.json.and.returnValue({
+        known_for: [
+          { title: 'First Title', synopsis: 'First synopsis without title' },
+          { title: 'Second Title', synopsis: 'Second synopsis contains second title to remove' },
+          { title: 'Third Title', synopsis: 'Third title synopsis should also be processed' },
+        ]
+      });
 
       let result = service.processResponse(response);
 
@@ -132,11 +134,13 @@ describe('Service: Actor', () => {
     });
 
     it('should handle missing synopses and titles', () => {
-      response.json.and.returnValue({ known_for: [
-        { title: 'First Title' },
-        { synopsis: 'Second synopsis contains second title to remove' },
-        { },
-      ]});
+      response.json.and.returnValue({
+        known_for: [
+          { title: 'First Title' },
+          { synopsis: 'Second synopsis contains second title to remove' },
+          {},
+        ]
+      });
 
       let result = service.processResponse(response);
 
