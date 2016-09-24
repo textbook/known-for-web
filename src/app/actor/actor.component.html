@@ -2,7 +2,7 @@
   <div class="actor-details">
     <div>
       <h2 class="actor-name">{{ actor?.name }}</h2>
-      <p class="actor-age" *ngIf="actor?.age">{{ actor?.age  }} years old</p>
+      <p class="actor-age">{{ actor | actorAge }}</p>
     </div>
     <img class="actor-image" src="{{ actor?.image_url }}">
   </div>

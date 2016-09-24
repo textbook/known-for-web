@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Rx';
 import { ActorComponent } from './actor.component';
 import { MovieComponent } from '../movie/movie.component';
 
+import { ActorAgePipe } from '../pipes';
 import { ActorService, MovieService } from '../services';
 
 describe('Component: Actor', () => {
@@ -34,7 +35,7 @@ describe('Component: Actor', () => {
     mockRenderer = jasmine.createSpyObj('Renderer', ['invokeElementMethod']);
 
     TestBed.configureTestingModule({
-      declarations: [ActorComponent, MovieComponent],
+      declarations: [ActorAgePipe, ActorComponent, MovieComponent],
       imports: [ReactiveFormsModule, SlimLoadingBarModule],
       providers: [
         FormBuilder,
@@ -79,9 +80,15 @@ describe('Component: Actor', () => {
   });
 
   it('should show the actor\'s age', () => {
-    fixture.componentInstance.actor = { name: 'John Smith', age: 38 };
+    fixture.componentInstance.actor = { name: 'John Smith', age: 38, alive: true };
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
+  });
+
+  it('should handle show a deceased actor\'s age at death', () => {
+    fixture.componentInstance.actor = { name: 'John Smith', age: 38, alive: false };
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('Died aged 38');
   });
 
   describe('movieTitle input', () => {

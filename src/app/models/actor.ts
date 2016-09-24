@@ -3,4 +3,5 @@ export interface Actor {
   known_for?: any[];
   image_url?: string;
   age?: number;
+  alive?: boolean;
 }

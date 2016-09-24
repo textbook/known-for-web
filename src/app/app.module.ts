@@ -13,6 +13,7 @@ import { MovieComponent } from './movie/movie.component';
 
 import { routes } from './app.router';
 
+import { ActorAgePipe } from './pipes';
 import { ActorService, MovieService } from './services';
 
 @NgModule({
@@ -23,7 +24,7 @@ import { ActorService, MovieService } from './services';
     RouterModule.forRoot(routes),
     SlimLoadingBarModule.forRoot(),
   ],
-  declarations: [AppComponent, AboutComponent, ActorComponent, MovieComponent],
+  declarations: [ActorAgePipe, AppComponent, AboutComponent, ActorComponent, MovieComponent],
   bootstrap: [AppComponent],
   providers: [ActorService, MovieService, SlimLoadingBarService]
 })
