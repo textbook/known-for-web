@@ -18,6 +18,9 @@ script:
   - ng test --no-watch
   - npm run endtoend
 
+after_success:
+  - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
+
 before_deploy:
   - npm run package
 
