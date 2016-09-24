@@ -58,25 +58,20 @@ describe('Service: Actor', () => {
     });
 
     it('should redact the movie title from the synopsis', () => {
-      let expected = `This movie is called ${ActorService.redactedTitle} but that's a secret...`;
-      let title = 'Some Movie';
       let spy = spyOn(service, 'processResponse').and.callThrough();
+      let title = 'Some Movie';
+      let synopsis = `This movie is called ${title} but that's a secret...`;
 
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({
           status: 200,
-          body: <Actor>{
-            name: 'Some Actor',
-            known_for: [
-                <Movie>{ title, synopsis: expected.replace(/\[x]/, title)},
-            ],
-          },
+          body: <Actor>{ name: 'Some Actor', known_for: [<Movie>{ title, synopsis }] },
         })));
       });
 
       service.getActor().subscribe(response => {
         expect(spy).toHaveBeenCalled();
-        expect(response.known_for[0].synopsis).toEqual(expected);
+        expect(response.known_for[0].synopsis).not.toContain(title);
       });
     });
 
