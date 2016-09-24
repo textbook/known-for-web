@@ -22,7 +22,8 @@ before_deploy:
   - npm run package
 
 deploy:
-    edge: true
+    edge:
+      branch: cf-login
     provider: cloudfoundry
     api: https://api.run.pez.pivotal.io
     username: $CF_USERNAME
