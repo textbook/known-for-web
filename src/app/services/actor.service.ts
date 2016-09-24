@@ -35,9 +35,11 @@ export class ActorService {
     let regex: RegExp;
     let actor: Actor = response.json();
     for (let movie of actor.known_for || []) {
-      regex = new RegExp(movie.title, 'i');
-      if (movie.synopsis.match(regex)) {
-        movie.synopsis = movie.synopsis.replace(regex, ActorService.redactedTitle);
+      if (movie.title && movie.synopsis) {
+        regex = new RegExp(movie.title, 'i');
+        if (movie.synopsis.match(regex)) {
+          movie.synopsis = movie.synopsis.replace(regex, ActorService.redactedTitle);
+        }
       }
     }
     return actor;

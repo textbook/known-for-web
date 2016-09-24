@@ -135,5 +135,17 @@ describe('Service: Actor', () => {
       expect(result.known_for[1].synopsis).toBe('Second synopsis contains ... to remove');
       expect(result.known_for[2].synopsis).toBe('... synopsis should also be processed');
     });
+
+    it('should handle missing synopses and titles', () => {
+      response.json.and.returnValue({ known_for: [
+        { title: 'First Title' },
+        { synopsis: 'Second synopsis contains second title to remove' },
+        { },
+      ]});
+
+      let result = service.processResponse(response);
+
+      expect(result.known_for.length).toBe(3);
+    });
   });
 });
