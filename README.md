@@ -1,6 +1,8 @@
 # KnownForWeb
 
 [![Build Status]][Travis]
+[![Coverage Status]][Coveralls]
+[![Dependency Status]][DavidDM]
 
 The UI for *"Known For"*, a simple, movie-based guessing game.
 
@@ -64,6 +66,10 @@ I haven't yet tried it: `ng github-pages:deploy`.
   [aTMDb]: https://pythonhosted.org/atmdb/
   [Build Status]: https://travis-ci.org/textbook/known-for-web.svg?branch=master
   [Cloud Foundry]: https://www.cloudfoundry.org/
+  [Coverage Status]: https://coveralls.io/repos/github/textbook/known-for-web/badge.svg?branch=master
+  [Coveralls]: https://coveralls.io/github/textbook/known-for-web?branch=master
+  [Dependency Status]: https://david-dm.org/textbook/known-for-web/status.svg
+  [DavidDM]: https://david-dm.org/textbook/known-for-web
   [`known-for-api`]: https://github.com/textbook/known-for-api
   [Pivotal Cloud Foundry]: https://pivotal.io/platform
   [TMDb]: https://www.themoviedb.org/
