@@ -1,6 +1,16 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/0.13/config/configuration-file.html
 
+var reports = {
+    html: 'coverage',
+    lcovonly: './coverage/coverage.lcov'
+};
+
+if (process.env.CI) {
+  // show inline coverage on Travis
+  reports['text'] = '';
+}
+
 module.exports = function (config) {
   config.set({
     basePath: './',
@@ -17,12 +27,7 @@ module.exports = function (config) {
     preprocessors: {
       './src/test.ts': ['angular-cli']
     },
-    remapIstanbulReporter: {
-      reports: {
-        html: 'coverage',
-        lcovonly: './coverage/coverage.lcov'
-      }
-    },
+    remapIstanbulReporter: { reports: reports },
     angularCli: {
       config: './angular-cli.json',
       environment: 'dev'
