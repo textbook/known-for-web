@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Subscription } from  'rxjs/Rx';
 
-import { Actor, Movie } from '../models';
+import { Actor, allShown, Movie, showAll } from '../models';
 import { ActorService, MovieService } from '../services';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
@@ -108,14 +108,14 @@ export class ActorComponent implements OnDestroy, OnInit {
   }
 
   private updateMovies(title: string) {
-    let allShown = true;
+    let allMoviesShown = true;
     this.actor.known_for.forEach((movie: Movie) => {
       if (movie.title.toLowerCase() === title) {
-        movie.shown = true;
-      } else if (!movie.shown) {
-        allShown = false;
+        movie.shown = showAll;
+      } else if (!allShown(movie.shown)) {
+        allMoviesShown = false;
       }
     });
-    this.completed = allShown;
+    this.completed = allMoviesShown;
   }
 }

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Rx';
 import { ActorComponent } from './actor.component';
 import { MovieComponent } from '../movie/movie.component';
 
+import { allShown, showAll, showDefault } from '../models';
 import { ActorAgePipe } from '../pipes';
 import { ActorService, MovieService } from '../services';
 
@@ -25,7 +26,7 @@ describe('Component: Actor', () => {
     mockActorService.getActor.and.returnValue(Observable.from([{ name: 'Hans Muster' }]));
 
     mockMovieService = jasmine.createSpyObj('MovieService', ['getMovieTitles']);
-    mockMovieService.getMovieTitles.and.returnValue(Observable.from([[ 'foo', 'bar', 'baz' ]]));
+    mockMovieService.getMovieTitles.and.returnValue(Observable.from([['foo', 'bar', 'baz']]));
 
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -55,40 +56,42 @@ describe('Component: Actor', () => {
     });
   });
 
-  it('should show an actor\'s name', () => {
-    fixture.componentInstance.actor = { name: 'Hello World' };
-    fixture.detectChanges();
-    expect(getActorName()).toEqual('Hello World');
-  });
+  describe('basic information', () => {
+    it('should show an actor\'s name', () => {
+      fixture.componentInstance.actor = { name: 'Hello World' };
+      fixture.detectChanges();
+      expect(getActorName()).toEqual('Hello World');
+    });
 
-  it('should show three related movies', () => {
-    fixture.componentInstance.actor = { name: 'Hello World', known_for: [{}, {}, {}] };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('kf-movie').length).toEqual(3);
-  });
+    it('should show three related movies', () => {
+      fixture.componentInstance.actor = { name: 'Hello World', known_for: [{}, {}, {}] };
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('kf-movie').length).toEqual(3);
+    });
 
-  it('should show an actor\'s image', () => {
-    let imageUrl = 'some.jpg';
-    fixture.componentInstance.actor = { name: 'Hello World', image_url: imageUrl };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('img.actor-image').src).toContain(imageUrl);
-  });
+    it('should show an actor\'s image', () => {
+      let imageUrl = 'some.jpg';
+      fixture.componentInstance.actor = { name: 'Hello World', image_url: imageUrl };
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('img.actor-image').src).toContain(imageUrl);
+    });
 
-  it('should retrieve an actor on init', () => {
-    expect(mockActorService.getActor).toHaveBeenCalled();
-    expect(getActorName()).toEqual('Hans Muster');
-  });
+    it('should retrieve an actor on init', () => {
+      expect(mockActorService.getActor).toHaveBeenCalled();
+      expect(getActorName()).toEqual('Hans Muster');
+    });
 
-  it('should show the actor\'s age', () => {
-    fixture.componentInstance.actor = { name: 'John Smith', age: 38, alive: true };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
-  });
+    it('should show the actor\'s age', () => {
+      fixture.componentInstance.actor = { name: 'John Smith', age: 38, alive: true };
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('38 years old');
+    });
 
-  it('should handle show a deceased actor\'s age at death', () => {
-    fixture.componentInstance.actor = { name: 'John Smith', age: 38, alive: false };
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('Died aged 38');
+    it('should handle show a deceased actor\'s age at death', () => {
+      fixture.componentInstance.actor = { name: 'John Smith', age: 38, alive: false };
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('p.actor-age').innerText).toEqual('Died aged 38');
+    });
   });
 
   describe('movieTitle input', () => {
@@ -179,6 +182,12 @@ describe('Component: Actor', () => {
       instance = fixture.componentInstance;
     });
 
+    it('should be triggered by clicking the Guess button', () => {
+      let spy = spyOn(instance, 'makeGuess');
+      fixture.nativeElement.querySelector('#guessButton').click();
+      expect(spy).toHaveBeenCalled();
+    });
+
     it('should use the input value if none provided', () => {
       let title = 'a movie title';
       instance.guessForm.controls['title'].setValue(title);
@@ -207,20 +216,26 @@ describe('Component: Actor', () => {
     });
 
     it('should show a movie if the title matches', () => {
-      instance.actor.known_for = [{ title: 'Match' }, { title: 'Not' }];
+      instance.actor.known_for = [
+        { title: 'Match', shown: showDefault },
+        { title: 'Not', shown: showDefault },
+      ];
       fixture.detectChanges();
       instance.makeGuess('Match');
-      expect(instance.actor.known_for[0].shown).toBeTruthy();
-      expect(instance.actor.known_for[1].shown).toBeFalsy();
+      expect(allShown(instance.actor.known_for[0].shown)).toBeTruthy();
+      expect(allShown(instance.actor.known_for[1].shown)).toBeFalsy();
     });
 
     it('should match titles case insensitively', () => {
-      instance.actor.known_for = [{ title: 'Match' }, { title: 'another match' }];
+      instance.actor.known_for = [
+        { title: 'Match', shown: showDefault },
+        { title: 'another match', shown: showDefault },
+      ];
       fixture.detectChanges();
       instance.makeGuess('match');
       instance.makeGuess('Another Match');
-      expect(instance.actor.known_for[0].shown).toBeTruthy();
-      expect(instance.actor.known_for[1].shown).toBeTruthy();
+      expect(allShown(instance.actor.known_for[0].shown)).toBeTruthy();
+      expect(allShown(instance.actor.known_for[1].shown)).toBeTruthy();
     });
 
     it('should clear the suggested titles', () => {
@@ -236,9 +251,9 @@ describe('Component: Actor', () => {
 
       beforeEach(() => {
         fixture.componentInstance.actor.known_for = [
-          { shown: true, title: 'first' },
-          { shown: true, title: 'second' },
-          { shown: false, title },
+          { shown: showAll, title: 'first' },
+          { shown: showAll, title: 'second' },
+          { shown: showDefault, title },
         ];
         fixture.detectChanges();
       });

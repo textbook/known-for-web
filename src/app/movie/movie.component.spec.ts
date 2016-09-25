@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MovieComponent } from './movie.component';
-import { Movie } from '../models';
+import { compareShown, Movie, showAll, showDefault } from '../models';
 
 describe('Component: Movie', () => {
   let fixture: ComponentFixture<MovieComponent>;
@@ -16,6 +16,28 @@ describe('Component: Movie', () => {
     });
   });
 
+  describe('shown getter', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = fixture.componentInstance;
+    });
+
+    it('should return default when there is no movie', () => {
+      expect(compareShown(instance.shown, showDefault)).toBeTruthy();
+    });
+
+    it('should return default when the movie has no shown property', () => {
+      fixture.componentInstance.movie = <Movie>{ title: 'Some Movie' };
+      expect(compareShown(instance.shown, showDefault)).toBeTruthy();
+    });
+
+    it('should return movie shown property when present', () => {
+      fixture.componentInstance.movie = <Movie>{ shown: showAll, title: 'Some Movie' };
+      expect(compareShown(instance.shown, showAll)).toBeTruthy();
+    });
+  });
+
   describe('when shown', () => {
     let movie: Movie;
 
@@ -25,7 +47,7 @@ describe('Component: Movie', () => {
         image_url: 'poster.jpg',
         release_year: 2001,
         synopsis: 'The movie Watch This does not exist',
-        shown: true,
+        shown: showAll,
       };
       fixture.componentInstance.movie = movie;
       fixture.detectChanges();
@@ -53,7 +75,7 @@ describe('Component: Movie', () => {
         title: 'Watch This',
         image_url: 'poster.jpg',
         release_year: 2001,
-        shown: false,
+        shown: showDefault,
       };
       fixture.componentInstance.movie = movie;
       fixture.detectChanges();

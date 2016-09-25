@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/from';
 
-import { Actor } from '../models';
+import { Actor, showDefault } from '../models';
 
 import { environment } from '../../environments/environment';
 
@@ -35,6 +35,7 @@ export class ActorService {
     let regex: RegExp;
     let actor: Actor = response.json();
     for (let movie of actor.known_for || []) {
+      movie.shown = showDefault;
       if (movie.title && movie.synopsis) {
         regex = new RegExp(movie.title, 'i');
         if (movie.synopsis.match(regex)) {
