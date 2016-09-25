@@ -15,6 +15,8 @@
   <kf-movie *ngFor="let movie of (actor?.known_for || [])"
       [movie]="movie" (click)="onMovieClicked()"></kf-movie>
 
+  <button (click)="provideHint()" class="full-width" id="hintButton">Hint</button>
+
   <form class="input-form" *ngIf="actor" [formGroup]="guessForm" (ngSubmit)="makeGuess()">
     <input type="text" name="movieTitle" formControlName="title">
     <button type="submit" id="guessButton" [disabled]="completed">Guess</button>

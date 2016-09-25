@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Subscription } from  'rxjs/Rx';
 
-import { Actor, allShown, Movie, showAll } from '../models';
+import { Actor, allShown, assign, Movie, showAll } from '../models';
 import { ActorService, MovieService } from '../services';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
@@ -100,6 +100,20 @@ export class ActorComponent implements OnDestroy, OnInit {
 
   goToAboutPage() {
     this.router.navigate(['/about']);
+  }
+
+  provideHint() {
+    for (let movie of this.actor.known_for) {
+      if (!allShown(movie.shown)) {
+        if (!movie.shown.releaseYear) {
+          movie.shown = assign(movie.shown, { releaseYear: true });
+          return;
+        } else if (!movie.shown.synopsis) {
+          movie.shown = assign(movie.shown, { synopsis: true });
+          return;
+        }
+      }
+    }
   }
 
   onMovieClicked() {

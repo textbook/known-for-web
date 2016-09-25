@@ -1,3 +1,5 @@
+import { ElementFinder } from 'protractor';
+
 import { WebPage } from './page.po';
 
 export class KnownForWebPage extends WebPage {
@@ -53,5 +55,15 @@ export class KnownForWebPage extends WebPage {
       protractor.Key.CONTROL, 'a', protractor.Key.NULL,
       protractor.Key.BACK_SPACE
     );
+  }
+
+  countEmptyMovieReleaseYears() {
+    return element.all(by.className('movie-release')).filter((el: ElementFinder) => {
+      return el.getText().then(text => text === ' ');
+    }).count();
+  }
+
+  clickHintButton() {
+    this.clickButton('Hint');
   }
 }

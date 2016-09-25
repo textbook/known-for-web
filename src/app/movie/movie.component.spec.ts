@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MovieComponent } from './movie.component';
-import { compareShown, Movie, showAll, showDefault } from '../models';
+import { compareShown, Movie, showAll, showDefault, Shown } from '../models';
 
 describe('Component: Movie', () => {
   let fixture: ComponentFixture<MovieComponent>;
@@ -42,13 +42,7 @@ describe('Component: Movie', () => {
     let movie: Movie;
 
     beforeEach(() => {
-      movie = {
-        title: 'Watch This',
-        image_url: 'poster.jpg',
-        release_year: 2001,
-        synopsis: 'The movie Watch This does not exist',
-        shown: showAll,
-      };
+      movie = createMovie(showAll);
       fixture.componentInstance.movie = movie;
       fixture.detectChanges();
     });
@@ -65,18 +59,17 @@ describe('Component: Movie', () => {
     it('should display the movie\'s release year', () => {
       expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
     });
+
+    it('should display the movie\'s synopsis', () => {
+      expect(fixture.nativeElement.querySelector('p.movie-synopsis').innerText).toContain(movie.synopsis);
+    });
   });
 
   describe('when not shown', () => {
     let movie: Movie;
 
     beforeEach(() => {
-      movie = {
-        title: 'Watch This',
-        image_url: 'poster.jpg',
-        release_year: 2001,
-        shown: showDefault,
-      };
+      movie = createMovie(showDefault);
       fixture.componentInstance.movie = movie;
       fixture.detectChanges();
     });
@@ -89,8 +82,40 @@ describe('Component: Movie', () => {
       expect(fixture.nativeElement.querySelector('.movie-poster > img.blurred')).not.toBeNull();
     });
 
-    it('should display the movie\'s release year', () => {
-      expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
+    it('should not display the movie\'s release year', () => {
+      expect(fixture.nativeElement.querySelector('p.movie-release').innerText).not.toContain(movie.release_year);
+    });
+
+    it('should not display the movie\'s synopsis', () => {
+      expect(fixture.nativeElement.querySelector('p.movie-synopsis').innerText).not.toContain(movie.synopsis);
     });
   });
+
+  describe('when hints are applied', () => {
+    it('should show the release year', () => {
+      let movie = createMovie({ title: false, releaseYear: true, poster: false, synopsis: false });
+      fixture.componentInstance.movie = movie;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
+      expect(fixture.nativeElement.querySelector('p.movie-synopsis').innerText).not.toContain(movie.synopsis);
+    });
+
+    it('should show the synopsis', () => {
+      let movie = createMovie({ title: false, releaseYear: true, poster: false, synopsis: true });
+      fixture.componentInstance.movie = movie;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
+      expect(fixture.nativeElement.querySelector('p.movie-synopsis').innerText).toContain(movie.synopsis);
+    });
+  });
+
+  function createMovie(state: Shown): Movie {
+    return {
+      title: 'Watch This',
+      image_url: 'poster.jpg',
+      release_year: 2001,
+      shown: state,
+      synopsis: 'description of the movie',
+    };
+  }
 });

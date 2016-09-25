@@ -9,9 +9,11 @@ import { Observable } from 'rxjs/Rx';
 import { ActorComponent } from './actor.component';
 import { MovieComponent } from '../movie/movie.component';
 
-import { allShown, showAll, showDefault } from '../models';
+import { allShown, compareShown, showAll, showDefault } from '../models';
 import { ActorAgePipe } from '../pipes';
 import { ActorService, MovieService } from '../services';
+import { Actor } from '../models/actor';
+import { Shown } from '../models/shown';
 
 describe('Component: Actor', () => {
   let fixture: ComponentFixture<ActorComponent>;
@@ -172,6 +174,58 @@ describe('Component: Actor', () => {
       expect(instance.suggestionFilter('')).toBeFalsy();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.suggestion').length).toBe(0);
+    });
+  });
+
+  describe('provideHint method', () => {
+    let allHints: Shown = { poster: false, releaseYear: true, synopsis: true, title: false };
+
+    it('should be triggered by clicking the Hint button', () => {
+      let spy = spyOn(fixture.componentInstance, 'provideHint');
+      fixture.nativeElement.querySelector('#hintButton').click();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should show an additional element of the first unrevealed movie', () => {
+      let actor: Actor = {
+        name: 'John Actor',
+        known_for: [
+          { title: 'Hello World', shown: showAll },
+          { title: 'I am here too', shown: showDefault },
+          { title: 'Also me', shown: showDefault },
+        ],
+      };
+      fixture.componentInstance.actor = actor;
+      fixture.detectChanges();
+      fixture.nativeElement.querySelector('#hintButton').click();
+      fixture.detectChanges();
+      expect(allShown(actor.known_for[0].shown)).toBeTruthy();
+      expect(compareShown(
+        actor.known_for[1].shown,
+        { poster: false, title: false, synopsis: false, releaseYear: true }
+      )).toBeTruthy();
+      expect(compareShown(actor.known_for[2].shown, showDefault)).toBeTruthy();
+    });
+
+    it('should pass over movies with both hints revealed', () => {
+      let actor: Actor = {
+        name: 'John Actor',
+        known_for: [
+          { title: 'Hello World', shown: showAll },
+          { title: 'I am here too', shown: allHints },
+          { title: 'Also me', shown: showDefault },
+        ],
+      };
+      fixture.componentInstance.actor = actor;
+      fixture.detectChanges();
+      fixture.nativeElement.querySelector('#hintButton').click();
+      fixture.detectChanges();
+      expect(allShown(actor.known_for[0].shown)).toBeTruthy();
+      expect(compareShown(actor.known_for[1].shown, allHints)).toBeTruthy();
+      expect(compareShown(
+        actor.known_for[2].shown,
+          { poster: false, releaseYear: true, synopsis: false, title: false }
+      )).toBeTruthy();
     });
   });
 

@@ -59,6 +59,12 @@ describe('Home Page', function() {
     checkCleared();
   });
 
+  it('should show a hint button to reveal more information', () => {
+    expect(page.countEmptyMovieReleaseYears()).toBe(3);
+    page.clickHintButton();
+    expect(page.countEmptyMovieReleaseYears()).toBe(2);
+  });
+
   it('should show a button to get more information about the app', () => {
     page.clickAboutButton();
 
