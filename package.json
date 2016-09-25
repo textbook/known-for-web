@@ -14,7 +14,7 @@
     "package": "ng build --target=production --env=stage && cp Staticfile* dist/",
     "reinstall": "rm -rf node_modules/ && npm install && npm run pree2e",
     "testall": "ng lint && ng test --no-watch && npm run endtoend",
-    "coveralls": "cat ./coverage/coverage.lcov | ./node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/coverage.lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
   "private": true,
   "dependencies": {
