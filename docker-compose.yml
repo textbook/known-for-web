@@ -1,0 +1,13 @@
+version: '2'
+services:
+  api:
+    environment:
+     - TMDB_API_TOKEN
+    image: known-for/api
+    ports:
+     - "8080:8080"
+  web:
+    command: ["serve", "--host", "0.0.0.0", "--environment", "docker"]
+    image: known-for/web
+    ports:
+     - "4200:4200"

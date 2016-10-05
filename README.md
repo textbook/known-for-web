@@ -32,6 +32,24 @@ it up and running is:
 
 For more information see the CLI documentation.
 
+## Docker
+
+Alternatively, both the front- and back-end projects have `Dockerfile`s,
+so you can use Docker to spin up either or both. A `docker-compose.yml`
+is provided to easily allow you to run the pair simultaneously as
+follows:
+
+    cd <wherever>/known-for-api
+    docker build -t known-for/api:latest .
+    cd <wherever>/known-for-web
+    docker build -t known-for/web:latest .
+    export TMDB_API_TOKEN=<whatever>
+    docker-compose up
+
+As above, this will make the app available on http://localhost:4200, as
+well as exposing the API on http://localhost:8080. See [`known-for-api`]
+for more information on installation and configuration.
+
 ## Testing
 
 The CLI provides commands for linting, unit tests and end-to-end tests.

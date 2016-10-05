@@ -23,6 +23,7 @@
         "source": "environments/environment.ts",
         "ci": "environments/environment.ci.ts",
         "dev": "environments/environment.dev.ts",
+        "docker": "environments/environment.docker.ts",
         "prod": "environments/environment.prod.ts",
         "stage": "environments/environment.stage.ts"
       }
