@@ -4,8 +4,9 @@ import {
   ConnectionBackend,
   Http,
   RequestMethod,
-  ResponseOptions,
+  RequestOptions,
   Response,
+  ResponseOptions,
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
@@ -22,13 +23,9 @@ describe('Service: Actor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: Http,
-          useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backend, defaultOptions);
-          },
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        { provide: RequestOptions, useClass: BaseRequestOptions },
+        { provide: ConnectionBackend, useClass: MockBackend },
+        Http,
         { provide: ActorService, useClass: ActorService },
         { provide: MockBackend, useClass: MockBackend },
         { provide: BaseRequestOptions, useClass: BaseRequestOptions }
