@@ -8,7 +8,7 @@ import 'rxjs/add/observable/from';
 
 import { Actor, showDefault } from '../models';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ActorService {

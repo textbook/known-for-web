@@ -2,11 +2,12 @@ import { Component, ElementRef, OnDestroy, OnInit, Renderer } from '@angular/cor
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Subscription } from  'rxjs/Rx';
 
 import { Actor, allShown, assign, Movie, showAll } from '../models';
-import { ActorService, MovieService } from '../services';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ActorService } from './actor.service';
+import { MovieService } from '../movie/movie.service';
 
 @Component({
   selector: 'kf-actor',

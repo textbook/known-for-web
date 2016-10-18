@@ -11,8 +11,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { ActorService } from './actor.service';
-import { Actor } from '../models';
-import { Movie } from '../models/movie';
+import { Actor, Movie } from '../models';
 
 describe('Service: Actor', () => {
   let mockBackend: MockBackend;

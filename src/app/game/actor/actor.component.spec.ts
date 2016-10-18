@@ -6,14 +6,12 @@ import { Router } from '@angular/router';
 import { SlimLoadingBarModule, SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Observable } from 'rxjs/Rx';
 
+import { ActorAgePipe } from './actor-age.pipe';
 import { ActorComponent } from './actor.component';
+import { ActorService } from './actor.service';
 import { MovieComponent } from '../movie/movie.component';
-
-import { allShown, compareShown, showAll, showDefault } from '../models';
-import { ActorAgePipe } from '../pipes';
-import { ActorService, MovieService } from '../services';
-import { Actor } from '../models/actor';
-import { Shown } from '../models/shown';
+import { MovieService } from '../movie/movie.service';
+import { Actor, allShown, compareShown, showAll, showDefault, Shown } from '../models';
 
 describe('Component: Actor', () => {
   let fixture: ComponentFixture<ActorComponent>;

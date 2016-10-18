@@ -3,7 +3,7 @@ import { Http, Response, URLSearchParams } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class MovieService {
