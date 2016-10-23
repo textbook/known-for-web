@@ -16,6 +16,11 @@ describe('Model: Shown', () => {
       expect(compareShown(example, showAll)).toBeFalsy();
       expect(compareShown(example, showDefault)).toBeFalsy();
     });
+
+    it('should return false if either object is null or undefined', () => {
+      expect(compareShown(example, null)).toBeFalsy();
+      expect(compareShown(undefined, example)).toBeFalsy();
+    });
   });
 
   describe('allShown function', () => {
