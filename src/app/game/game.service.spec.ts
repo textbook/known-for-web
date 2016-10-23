@@ -10,14 +10,12 @@ import {
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
-import { ActorService } from './actor.service';
-import { Actor, Movie } from '../models';
+import { GameService } from './game.service';
+import { Actor, Movie } from './models';
 
-describe('Service: Actor', () => {
+describe('Service: Game', () => {
   let mockBackend: MockBackend;
-  let service: ActorService;
-
-  const endpointRegex: RegExp = /\/api\/person$/;
+  let service: GameService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,16 +23,17 @@ describe('Service: Actor', () => {
         { provide: RequestOptions, useClass: BaseRequestOptions },
         { provide: ConnectionBackend, useClass: MockBackend },
         Http,
-        { provide: ActorService, useClass: ActorService },
-        { provide: MockBackend, useClass: MockBackend },
-        { provide: BaseRequestOptions, useClass: BaseRequestOptions }
+        GameService,
       ]
     });
-    mockBackend = TestBed.get(MockBackend);
-    service = TestBed.get(ActorService);
+    mockBackend = TestBed.get(ConnectionBackend);
+    service = TestBed.get(GameService);
   });
 
   describe('getActor method', () => {
+
+    const endpointRegex: RegExp = /\/api\/person$/;
+
     it('should GET an actor from the endpoint', () => {
       let expectedResponse: Actor = { name: '' };
 
@@ -54,7 +53,7 @@ describe('Service: Actor', () => {
     });
 
     it('should redact the movie title from the synopsis', () => {
-      let spy = spyOn(service, 'processResponse').and.callThrough();
+      let spy = spyOn(service, 'processActorResponse').and.callThrough();
       let title = 'Some Movie';
       let synopsis = `This movie is called ${title} but that's a secret...`;
 
@@ -83,12 +82,12 @@ describe('Service: Actor', () => {
 
       service.getActor().subscribe(response => {
         expect(spiedConsole).toHaveBeenCalled();
-        expect(response).toEqual(ActorService.whoops);
+        expect(response).toEqual(GameService.whoops);
       });
     });
   });
 
-  describe('processResponse method', () => {
+  describe('processActorResponse method', () => {
     let response: any;
 
     beforeEach(() => {
@@ -99,7 +98,7 @@ describe('Service: Actor', () => {
       let synopsis = 'This contains tHe tItLe but not in the same case';
       response.json.and.returnValue({ known_for: [{ title: 'The Title', synopsis }] });
 
-      let result = service.processResponse(response);
+      let result = service.processActorResponse(response);
 
       expect(result.known_for[0].synopsis).toBe('This contains ... but not in the same case');
     });
@@ -108,7 +107,7 @@ describe('Service: Actor', () => {
       let synopsis = 'The title is not in this';
       response.json.and.returnValue({ known_for: [{ title: 'something else', synopsis }] });
 
-      let result = service.processResponse(response);
+      let result = service.processActorResponse(response);
 
       expect(result.known_for[0].synopsis).toBe(synopsis);
     });
@@ -122,7 +121,7 @@ describe('Service: Actor', () => {
         ]
       });
 
-      let result = service.processResponse(response);
+      let result = service.processActorResponse(response);
 
       expect(result.known_for[0].synopsis).toBe('First synopsis without title');
       expect(result.known_for[1].synopsis).toBe('Second synopsis contains ... to remove');
@@ -138,9 +137,50 @@ describe('Service: Actor', () => {
         ]
       });
 
-      let result = service.processResponse(response);
+      let result = service.processActorResponse(response);
 
       expect(result.known_for.length).toBe(3);
+    });
+  });
+
+  describe('getMovieTitles method', () => {
+
+    const endpointRegex: RegExp = /\/api\/search\?query=\w+$/;
+
+    it('should GET a list of titles from the endpoint', () => {
+      let expectedResponse: string[] = ['hello', 'world'];
+      let guess = 'something';
+
+      mockBackend.connections.subscribe(connection => {
+        expect(connection.request.url.toString()).toMatch(endpointRegex);
+        expect(connection.request.method).toEqual(RequestMethod.Get);
+
+        connection.mockRespond(new Response(new ResponseOptions({
+          status: 200,
+          body: expectedResponse,
+        })));
+      });
+
+      service.getMovieTitles(guess).subscribe(response => {
+        expect(response).toEqual(expectedResponse);
+      });
+    });
+
+    it('should return an empty list on failure', () => {
+      let spiedConsole = spyOn(console, 'error');
+      let guess = 'something';
+
+      mockBackend.connections.subscribe(connection => {
+        expect(connection.request.url.toString()).toMatch(endpointRegex);
+        expect(connection.request.method).toEqual(RequestMethod.Get);
+
+        connection.mockError(<Error>{ status: 999, message: 'panic!', name: 'problem' });
+      });
+
+      service.getMovieTitles(guess).subscribe(response => {
+        expect(spiedConsole).toHaveBeenCalled();
+        expect(response).toEqual([]);
+      });
     });
   });
 });

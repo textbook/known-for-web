@@ -9,9 +9,8 @@ import { GameRoutingModule } from './game-routing.module';
 
 import { ActorAgePipe } from './actor/actor-age.pipe';
 import { ActorComponent } from './actor/actor.component';
-import { ActorService } from './actor/actor.service';
-import { MovieService } from './movie/movie.service';
-import { MovieComponent } from './movie/movie.component';
+import { GameService } from './game.service';
+import { MovieComponent } from './actor/movie/movie.component';
 
 @NgModule({
   declarations: [ActorAgePipe, ActorComponent, MovieComponent],
@@ -23,6 +22,6 @@ import { MovieComponent } from './movie/movie.component';
     ReactiveFormsModule,
     SlimLoadingBarModule.forRoot(),
   ],
-  providers: [ActorService, MovieService, SlimLoadingBarService],
+  providers: [GameService, SlimLoadingBarService],
 })
 export class GameModule { }

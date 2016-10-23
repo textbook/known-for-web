@@ -3,11 +3,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Subscription } from  'rxjs/Rx';
+import { Subscription } from  'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/mergeMap';
 
 import { Actor, allShown, assign, Movie, showAll } from '../models';
-import { ActorService } from './actor.service';
-import { MovieService } from '../movie/movie.service';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'kf-actor',
@@ -25,8 +28,7 @@ export class ActorComponent implements OnDestroy, OnInit {
   title: FormControl;
 
   constructor(
-      private actorService: ActorService,
-      private movieService: MovieService,
+      private gameService: GameService,
       private router: Router,
       private builder: FormBuilder,
       private renderer: Renderer,
@@ -39,7 +41,7 @@ export class ActorComponent implements OnDestroy, OnInit {
         .debounceTime(400)
         .distinctUntilChanged()
         .filter(title => this.suggestionFilter(title))
-        .flatMap(title => this.movieService.getMovieTitles(title))
+        .flatMap(title => this.gameService.getMovieTitles(title))
         .subscribe(titles => this.suggestions = titles);
   }
 
@@ -85,7 +87,7 @@ export class ActorComponent implements OnDestroy, OnInit {
   refreshActor() {
     this.loadingBar.progress = 20;
     this.loadingBar.start();
-    this.actorService.getActor().subscribe((actor: Actor) => {
+    this.gameService.getActor().subscribe((actor: Actor) => {
       this.loadingBar.complete();
       this.actor = actor;
       this.clearInput();

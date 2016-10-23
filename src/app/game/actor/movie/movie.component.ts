@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Movie, showDefault, Shown } from '../models';
+import { Movie, showDefault, Shown } from '../../models';
 
 @Component({
   selector: 'kf-movie',

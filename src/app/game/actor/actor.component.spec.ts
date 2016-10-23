@@ -8,25 +8,21 @@ import { Observable } from 'rxjs/Rx';
 
 import { ActorAgePipe } from './actor-age.pipe';
 import { ActorComponent } from './actor.component';
-import { ActorService } from './actor.service';
-import { MovieComponent } from '../movie/movie.component';
-import { MovieService } from '../movie/movie.service';
+import { GameService } from '../game.service';
+import { MovieComponent } from './movie/movie.component';
 import { Actor, allShown, compareShown, showAll, showDefault, Shown } from '../models';
 
 describe('Component: Actor', () => {
   let fixture: ComponentFixture<ActorComponent>;
-  let mockActorService: any;
   let mockRouter: any;
-  let mockMovieService: any;
+  let mockGameService: any;
   let mockElementRef: any;
   let mockRenderer: any;
 
   beforeEach(done => {
-    mockActorService = jasmine.createSpyObj('ActorService', ['getActor']);
-    mockActorService.getActor.and.returnValue(Observable.from([{ name: 'Hans Muster' }]));
-
-    mockMovieService = jasmine.createSpyObj('MovieService', ['getMovieTitles']);
-    mockMovieService.getMovieTitles.and.returnValue(Observable.from([['foo', 'bar', 'baz']]));
+    mockGameService = jasmine.createSpyObj('GameService', ['getActor', 'getMovieTitles']);
+    mockGameService.getActor.and.returnValue(Observable.of({ name: 'Hans Muster' }));
+    mockGameService.getMovieTitles.and.returnValue(Observable.of(['foo', 'bar', 'baz']));
 
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -43,8 +39,7 @@ describe('Component: Actor', () => {
         SlimLoadingBarService,
         { provide: Renderer, useValue: mockRenderer },
         { provide: ElementRef, useValue: mockElementRef },
-        { provide: ActorService, useValue: mockActorService },
-        { provide: MovieService, useValue: mockMovieService },
+        { provide: GameService, useValue: mockGameService },
         { provide: Router, useValue: mockRouter },
       ]
     });
@@ -77,7 +72,7 @@ describe('Component: Actor', () => {
     });
 
     it('should retrieve an actor on init', () => {
-      expect(mockActorService.getActor).toHaveBeenCalled();
+      expect(mockGameService.getActor).toHaveBeenCalled();
       expect(getActorName()).toEqual('Hans Muster');
     });
 
@@ -113,14 +108,14 @@ describe('Component: Actor', () => {
     it('should fetch suggestions when non-empty input is provided', done => {
       let title = 'hello';
       sendInput(title).then(() => {
-        expect(mockMovieService.getMovieTitles).toHaveBeenCalledWith(title);
+        expect(mockGameService.getMovieTitles).toHaveBeenCalledWith(title);
         done();
       });
     });
 
     it('should not fetch suggestions when empty input is provided', done => {
       sendInput('').then(() => {
-        expect(mockMovieService.getMovieTitles).not.toHaveBeenCalled();
+        expect(mockGameService.getMovieTitles).not.toHaveBeenCalled();
         done();
       });
     });
@@ -331,7 +326,7 @@ describe('Component: Actor', () => {
     it('should call the actor service', () => {
       fixture.componentInstance.refreshActor();
 
-      expect(mockActorService.getActor).toHaveBeenCalled();
+      expect(mockGameService.getActor).toHaveBeenCalled();
     });
 
     it('should clear the guesses', () => {

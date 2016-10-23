@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MovieComponent } from './movie.component';
-import { compareShown, Movie, showAll, showDefault, Shown } from '../models';
+import { compareShown, Movie, showAll, showDefault, Shown } from '../../models';
 
 describe('Component: Movie', () => {
   let fixture: ComponentFixture<MovieComponent>;
