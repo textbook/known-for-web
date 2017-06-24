@@ -35,7 +35,7 @@ describe('Service: Game', () => {
     const endpointRegex: RegExp = /\/api\/person$/;
 
     it('should GET an actor from the endpoint', () => {
-      let expectedResponse: Actor = { name: '' };
+      const expectedResponse: Actor = { name: '' };
 
       mockBackend.connections.subscribe(connection => {
         expect(connection.request.url.toString()).toMatch(endpointRegex);
@@ -53,9 +53,9 @@ describe('Service: Game', () => {
     });
 
     it('should redact the movie title from the synopsis', () => {
-      let spy = spyOn(service, 'processActorResponse').and.callThrough();
-      let title = 'Some Movie';
-      let synopsis = `This movie is called ${title} but that's a secret...`;
+      const spy = spyOn(service, 'processActorResponse').and.callThrough();
+      const title = 'Some Movie';
+      const synopsis = `This movie is called ${title} but that's a secret...`;
 
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({
@@ -71,7 +71,7 @@ describe('Service: Game', () => {
     });
 
     it('should return dummy data on whoops', () => {
-      let spiedConsole = spyOn(console, 'error');
+      const spiedConsole = spyOn(console, 'error');
 
       mockBackend.connections.subscribe(connection => {
         expect(connection.request.url.toString()).toMatch(endpointRegex);
@@ -95,19 +95,19 @@ describe('Service: Game', () => {
     });
 
     it('should be case-insensitive', () => {
-      let synopsis = 'This contains tHe tItLe but not in the same case';
+      const synopsis = 'This contains tHe tItLe but not in the same case';
       response.json.and.returnValue({ known_for: [{ title: 'The Title', synopsis }] });
 
-      let result = service.processActorResponse(response);
+      const result = service.processActorResponse(response);
 
       expect(result.known_for[0].synopsis).toBe('This contains ... but not in the same case');
     });
 
     it('should not alter synopses without the title in', () => {
-      let synopsis = 'The title is not in this';
+      const synopsis = 'The title is not in this';
       response.json.and.returnValue({ known_for: [{ title: 'something else', synopsis }] });
 
-      let result = service.processActorResponse(response);
+      const result = service.processActorResponse(response);
 
       expect(result.known_for[0].synopsis).toBe(synopsis);
     });
@@ -121,7 +121,7 @@ describe('Service: Game', () => {
         ]
       });
 
-      let result = service.processActorResponse(response);
+      const result = service.processActorResponse(response);
 
       expect(result.known_for[0].synopsis).toBe('First synopsis without title');
       expect(result.known_for[1].synopsis).toBe('Second synopsis contains ... to remove');
@@ -137,7 +137,7 @@ describe('Service: Game', () => {
         ]
       });
 
-      let result = service.processActorResponse(response);
+      const result = service.processActorResponse(response);
 
       expect(result.known_for.length).toBe(3);
     });
@@ -148,8 +148,8 @@ describe('Service: Game', () => {
     const endpointRegex: RegExp = /\/api\/search\?query=\w+$/;
 
     it('should GET a list of titles from the endpoint', () => {
-      let expectedResponse: string[] = ['hello', 'world'];
-      let guess = 'something';
+      const expectedResponse: string[] = ['hello', 'world'];
+      const guess = 'something';
 
       mockBackend.connections.subscribe(connection => {
         expect(connection.request.url.toString()).toMatch(endpointRegex);
@@ -167,8 +167,8 @@ describe('Service: Game', () => {
     });
 
     it('should return an empty list on failure', () => {
-      let spiedConsole = spyOn(console, 'error');
-      let guess = 'something';
+      const spiedConsole = spyOn(console, 'error');
+      const guess = 'something';
 
       mockBackend.connections.subscribe(connection => {
         expect(connection.request.url.toString()).toMatch(endpointRegex);

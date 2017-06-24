@@ -31,7 +31,7 @@ export class GameService {
   }
 
   getMovieTitles(title: string) {
-    let search = new URLSearchParams();
+    const search = new URLSearchParams();
     search.set('query', title);
     return this.http
         .get(`${environment.apiBaseUrl}/search`, { search })
@@ -44,8 +44,8 @@ export class GameService {
 
   processActorResponse(response: Response): Actor {
     let regex: RegExp;
-    let actor: Actor = response.json();
-    for (let movie of actor.known_for || []) {
+    const actor: Actor = response.json();
+    for (const movie of actor.known_for || []) {
       movie.shown = showDefault;
       if (movie.title && movie.synopsis) {
         regex = new RegExp(movie.title, 'i');

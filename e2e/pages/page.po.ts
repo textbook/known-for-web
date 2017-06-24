@@ -1,3 +1,5 @@
+import { browser, element, by, protractor } from 'protractor';
+
 export class WebPage {
   path: string;
 
@@ -10,7 +12,7 @@ export class WebPage {
   }
 
   clickButton(buttonText: string) {
-    let button = element(by.buttonText(buttonText));
+    const button = element(by.buttonText(buttonText));
     browser.wait(
       protractor.ExpectedConditions.elementToBeClickable(button),
       2000,

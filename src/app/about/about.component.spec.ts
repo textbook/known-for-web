@@ -25,7 +25,7 @@ describe('Component: About', () => {
   });
 
   it('should display information about the app', () => {
-    let byline = 'developed by Jonathan Sharpe';
+    const byline = 'developed by Jonathan Sharpe';
     expect(fixture.nativeElement.querySelector('p.intro').innerText).toContain(byline);
   });
 

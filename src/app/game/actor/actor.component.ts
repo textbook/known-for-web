@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { Subscription } from  'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/filter';
@@ -106,7 +106,7 @@ export class ActorComponent implements OnDestroy, OnInit {
   }
 
   provideHint() {
-    for (let movie of this.actor.known_for) {
+    for (const movie of this.actor.known_for) {
       if (!allShown(movie.shown)) {
         if (!movie.shown.releaseYear) {
           movie.shown = assign(movie.shown, { releaseYear: true });
@@ -120,7 +120,7 @@ export class ActorComponent implements OnDestroy, OnInit {
   }
 
   onMovieClicked() {
-    let renderElement = this.element.nativeElement.querySelector('input[name=movieTitle]');
+    const renderElement = this.element.nativeElement.querySelector('input[name=movieTitle]');
     this.renderer.invokeElementMethod(renderElement, 'focus');
   }
 

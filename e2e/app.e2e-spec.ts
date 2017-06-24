@@ -14,7 +14,7 @@ describe('Home Page', function() {
   });
 
   it('should provide an input for guessing movie titles', () => {
-    var title = 'Watch This';
+    const title = 'Watch This';
 
     page.guessMovieTitle(title);
 
@@ -23,15 +23,14 @@ describe('Home Page', function() {
 
   it('should focus the input when a movie is clicked', () => {
     page.getMovies().first().click();
-    let activeElement = browser.driver.switchTo().activeElement();
-    expect(page.getTitleInput().getId()).toBe(activeElement.getId())
+    page.validateInputFocused();
   });
 
   it('should provide suggested titles to be guessed', done => {
     page.inputMovieTitle('hello');
     expect(page.getSuggestions().count()).toBeGreaterThan(0);
 
-    let guess = page.getSuggestions().first();
+    const guess = page.getSuggestions().first();
     guess.getText().then(text => {
       guess.click();
       validateGuess(text);
@@ -39,7 +38,7 @@ describe('Home Page', function() {
     });
   });
 
-  it('should clear suggestions when a guess is removed', () => {
+  xit('should clear suggestions when a guess is removed', () => {
     expect(page.getSuggestions().count()).toBe(0);
     page.inputMovieTitle('fight club');
     expect(page.getSuggestions().count()).toBeGreaterThan(0);
@@ -50,7 +49,7 @@ describe('Home Page', function() {
   });
 
   it('should show a button to change the displayed actor', () => {
-    let lastActor = page.getActorName();
+    const lastActor = page.getActorName();
     page.inputMovieTitle('some guess');
 
     page.clickSkipButton();

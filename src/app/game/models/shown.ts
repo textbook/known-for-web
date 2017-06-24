@@ -29,13 +29,13 @@ export function compareShown(first: Shown, second: Shown): boolean {
 }
 
 export function assign(current: Shown, newValue: any): Shown {
-  let returnVal = <Shown>{
+  const returnVal = <Shown>{
     poster: false,
     releaseYear: false,
     synopsis: false,
     title: false,
   };
-  for (let key in returnVal) {
+  for (const key in returnVal) {
     if (newValue.hasOwnProperty(key)) {
       returnVal[key] = newValue[key];
     } else {

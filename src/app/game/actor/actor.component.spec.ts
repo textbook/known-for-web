@@ -65,7 +65,7 @@ describe('Component: Actor', () => {
     });
 
     it('should show an actor\'s image', () => {
-      let imageUrl = 'some.jpg';
+      const imageUrl = 'some.jpg';
       fixture.componentInstance.actor = { name: 'Hello World', image_url: imageUrl };
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('img.actor-image').src).toContain(imageUrl);
@@ -97,8 +97,8 @@ describe('Component: Actor', () => {
     });
 
     it('should be filtered', done => {
-      let spy = spyOn(fixture.componentInstance, 'suggestionFilter').and.returnValue(false);
-      let title = 'foo';
+      const spy = spyOn(fixture.componentInstance, 'suggestionFilter').and.returnValue(false);
+      const title = 'foo';
       sendInput(title).then(() => {
         expect(spy).toHaveBeenCalledWith(title);
         done();
@@ -106,7 +106,7 @@ describe('Component: Actor', () => {
     });
 
     it('should fetch suggestions when non-empty input is provided', done => {
-      let title = 'hello';
+      const title = 'hello';
       sendInput(title).then(() => {
         expect(mockGameService.getMovieTitles).toHaveBeenCalledWith(title);
         done();
@@ -171,16 +171,16 @@ describe('Component: Actor', () => {
   });
 
   describe('provideHint method', () => {
-    let allHints: Shown = { poster: false, releaseYear: true, synopsis: true, title: false };
+    const allHints: Shown = { poster: false, releaseYear: true, synopsis: true, title: false };
 
     it('should be triggered by clicking the Hint button', () => {
-      let spy = spyOn(fixture.componentInstance, 'provideHint');
+      const spy = spyOn(fixture.componentInstance, 'provideHint');
       fixture.nativeElement.querySelector('#hintButton').click();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should show an additional element of the first unrevealed movie', () => {
-      let actor: Actor = {
+      const actor: Actor = {
         name: 'John Actor',
         known_for: [
           { title: 'Hello World', shown: showAll },
@@ -201,7 +201,7 @@ describe('Component: Actor', () => {
     });
 
     it('should pass over movies with both hints revealed', () => {
-      let actor: Actor = {
+      const actor: Actor = {
         name: 'John Actor',
         known_for: [
           { title: 'Hello World', shown: showAll },
@@ -230,32 +230,32 @@ describe('Component: Actor', () => {
     });
 
     it('should be triggered by clicking the Guess button', () => {
-      let spy = spyOn(instance, 'makeGuess');
+      const spy = spyOn(instance, 'makeGuess');
       fixture.nativeElement.querySelector('#guessButton').click();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should use the input value if none provided', () => {
-      let title = 'a movie title';
+      const title = 'a movie title';
       instance.guessForm.controls['title'].setValue(title);
       instance.makeGuess();
       expect(instance.guesses.pop()).toBe(title);
     });
 
     it('should add inputs to a list', () => {
-      let guesses = instance.guesses.length;
+      const guesses = instance.guesses.length;
       instance.makeGuess('hello world');
       expect(instance.guesses.length).toBe(guesses + 1);
     });
 
     it('should ignore empty inputs', () => {
-      let guesses = instance.guesses.length;
+      const guesses = instance.guesses.length;
       instance.makeGuess('');
       expect(instance.guesses.length).toBe(guesses);
     });
 
     it('should ignore duplicate inputs', () => {
-      let guesses = instance.guesses.length;
+      const guesses = instance.guesses.length;
       instance.makeGuess('hello world');
       instance.makeGuess('hello world');
       instance.makeGuess('Hello World');
@@ -294,7 +294,7 @@ describe('Component: Actor', () => {
     });
 
     describe('when last movie guessed', () => {
-      let title = 'the last one';
+      const title = 'the last one';
 
       beforeEach(() => {
         fixture.componentInstance.actor.known_for = [
@@ -361,7 +361,7 @@ describe('Component: Actor', () => {
 
   describe('onMovieClicked method', () => {
     it('should be triggered by clicking on a movie', () => {
-      let spy = spyOn(fixture.componentInstance, 'onMovieClicked');
+      const spy = spyOn(fixture.componentInstance, 'onMovieClicked');
       fixture.componentInstance.actor.known_for = [{ title: 'movie title' }];
       fixture.detectChanges();
 
@@ -371,7 +371,7 @@ describe('Component: Actor', () => {
     });
 
     it('should focus the input', () => {
-      let spy = spyOn(fixture.nativeElement.querySelector('input[name=movieTitle]'), 'focus');
+      const spy = spyOn(fixture.nativeElement.querySelector('input[name=movieTitle]'), 'focus');
 
       fixture.componentInstance.onMovieClicked();
 

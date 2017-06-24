@@ -1,22 +1,28 @@
+dist: trusty
+
+addons:
+  chrome: stable
+
 language: node_js
+
 node_js:
   - "6"
 
 install:
-  - npm install -g angular-cli
+  - npm install -g @angular/cli
   - npm install -g karma
   - npm install
 
 before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
   - ng -v
-  - npm run pree2e
-  - ng serve --env=ci &
-  - sleep 30
 
 script:
   - ng lint
-  - ng test --no-watch
-  - npm run endtoend
+  - ng test --no-watch --code-coverage
+  - npm run cie2e
 
 after_success:
   - npm run coveralls
@@ -25,11 +31,11 @@ before_deploy:
   - npm run package
 
 deploy:
-    edge: true
-    provider: cloudfoundry
-    api: https://api.run.pez.pivotal.io
-    username: $CF_USERNAME
-    password: $CF_PASSWORD
-    organization: pivot-jsharpe
-    space: known-for
-    manifest: manifest.yml
+  edge: true
+  provider: cloudfoundry
+  api: https://api.run.pez.pivotal.io
+  username: $CF_USERNAME
+  password: $CF_PASSWORD
+  organization: pivot-jsharpe
+  space: known-for
+  manifest: manifest.yml

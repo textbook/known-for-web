@@ -2,20 +2,22 @@
 // https://github.com/angular/protractor/blob/master/docs/referenceConf.js
 
 /*global jasmine */
-var SpecReporter = require('jasmine-spec-reporter');
-var phantomJSPath = require('phantomjs-prebuilt').path;
+var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
+var testPort = parseInt(process.env.PORT || '4200', 10);
 
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    'e2e/**/*.e2e-spec.ts'
+    './e2e/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path': phantomJSPath
+    browserName: 'chrome',
+    chromeOptions: {
+      args: ['--headless', '--disable-gpu']
+    }
   },
-  directConnect: false,
-  baseUrl: 'http://localhost:4200',
+  directConnect: true,
+  baseUrl: 'http://localhost:' + testPort,
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
@@ -25,11 +27,10 @@ exports.config = {
   useAllAngular2AppRoots: true,
   beforeLaunch: function() {
     require('ts-node').register({
-      project: 'e2e'
+      project: 'e2e/tsconfig.e2e.json'
     });
   },
   onPrepare: function() {
-    browser.manage().timeouts().implicitlyWait(5000);
-    jasmine.getEnv().addReporter(new SpecReporter());
+    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
 };

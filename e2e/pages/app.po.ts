@@ -1,4 +1,4 @@
-import { ElementFinder } from 'protractor';
+import { browser, element, by, protractor, ElementFinder } from 'protractor';
 
 import { WebPage } from './page.po';
 
@@ -26,7 +26,7 @@ export class KnownForWebPage extends WebPage {
   }
 
   getTitleInput() {
-    return element(by.name('movieTitle'))
+    return element(by.name('movieTitle'));
   }
 
   inputMovieTitle(title: string) {
@@ -65,5 +65,10 @@ export class KnownForWebPage extends WebPage {
 
   clickHintButton() {
     this.clickButton('Hint');
+  }
+
+  validateInputFocused() {
+    const activeElement = browser.driver.switchTo().activeElement();
+    expect(this.getTitleInput().getId()).toBe(activeElement.getId());
   }
 }

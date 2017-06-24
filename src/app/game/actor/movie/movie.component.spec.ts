@@ -93,7 +93,7 @@ describe('Component: Movie', () => {
 
   describe('when hints are applied', () => {
     it('should show the release year', () => {
-      let movie = createMovie({ title: false, releaseYear: true, poster: false, synopsis: false });
+      const movie = createMovie({ title: false, releaseYear: true, poster: false, synopsis: false });
       fixture.componentInstance.movie = movie;
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
@@ -101,7 +101,7 @@ describe('Component: Movie', () => {
     });
 
     it('should show the synopsis', () => {
-      let movie = createMovie({ title: false, releaseYear: true, poster: false, synopsis: true });
+      const movie = createMovie({ title: false, releaseYear: true, poster: false, synopsis: true });
       fixture.componentInstance.movie = movie;
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('p.movie-release').innerText).toContain(movie.release_year);
